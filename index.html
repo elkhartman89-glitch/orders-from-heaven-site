@@ -1,11 +1,378 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>TEST</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>0RD3RS FR0M H3AVEN</title>
+  <meta name="description" content="0RD3RS FR0M H3AVEN. What are your 0RD3RS?" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070913;
+      --panel:#0b0f22;
+      --panel2:#0a0d1b;
+      --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --mint: rgba(78,255,196,.92);
+      --mint2: rgba(78,255,196,.18);
+      --blue: rgba(120,140,255,.92);
+      --blue2: rgba(120,140,255,.18);
+      --radius: 22px;
+      --radius2: 16px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 520px at 16% 10%, rgba(120,140,255,.18), transparent 60%),
+        radial-gradient(860px 520px at 88% 18%, rgba(78,255,196,.12), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.04), transparent 26%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* SAFE subtle motion: no blur, no blend modes */
+    .gridlines{
+      position:fixed; inset:0; z-index:-1; pointer-events:none;
+      opacity:.12;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 64px 64px;
+      transform: translate3d(0,0,0);
+      mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
+    }
+
+    .wrap{ max-width:1120px; margin:0 auto; padding: 20px 18px 78px; }
+
+    header{
+      position:sticky; top:0; z-index:20;
+      background: rgba(7,9,19,.88);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{
+      max-width:1120px; margin:0 auto;
+      padding: 14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:12px;
+      color: rgba(255,255,255,.78);
+      white-space:nowrap;
+    }
+    .led{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--mint);
+      box-shadow: 0 0 0 0 rgba(78,255,196,.40);
+      animation: ping 1.4s infinite;
+      flex:0 0 auto;
+    }
+    @keyframes ping{
+      0%{ box-shadow:0 0 0 0 rgba(78,255,196,.40); }
+      70%{ box-shadow:0 0 0 16px rgba(78,255,196,0); }
+      100%{ box-shadow:0 0 0 0 rgba(78,255,196,0); }
+    }
+    .navlinks{ display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-end; }
+    a{ color: rgba(255,255,255,.80); text-decoration:none; }
+    a:hover{ color:#fff; }
+
+    .card{
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,.48);
+    }
+
+    /* Tech frame without heavy effects */
+    .frame{
+      position:relative;
+    }
+    .frame:before{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.65;
+      background:
+        radial-gradient(900px 380px at 12% 0%, rgba(78,255,196,.10), transparent 65%),
+        radial-gradient(700px 320px at 92% 20%, rgba(120,140,255,.10), transparent 62%),
+        linear-gradient(90deg, rgba(78,255,196,.10), transparent 30%);
+    }
+    .frame:after{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg, transparent 0 96%, rgba(78,255,196,.25) 96% 100%),
+        linear-gradient(315deg, transparent 0 96%, rgba(120,140,255,.20) 96% 100%);
+      opacity:.18;
+    }
+
+    .hero{
+      padding: 30px 0 18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .heroMain{ padding: 26px; position:relative; }
+    h1{
+      margin:0;
+      font-size: clamp(40px, 5.2vw, 78px);
+      letter-spacing:.01em;
+      line-height:1.02;
+    }
+
+    /* Glitch-lite (safe): text-shadow only */
+    .glitch{
+      text-shadow:
+        2px 0 rgba(120,140,255,.35),
+        -2px 0 rgba(78,255,196,.28);
+    }
+
+    .tagline{
+      margin-top: 12px;
+      font-size: 18px;
+      color: rgba(255,255,255,.86);
+    }
+    .sub{
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 68ch;
+      line-height: 1.6;
+    }
+
+    .ctaRow{ margin-top: 18px; display:flex; gap:12px; flex-wrap:wrap; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 13px 16px;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      font-weight: 650;
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+    .btn.primary{
+      border-color: rgba(78,255,196,.40);
+      background: linear-gradient(180deg, rgba(78,255,196,.16), rgba(78,255,196,.08));
+    }
+    .btn.secondary{
+      border-color: rgba(120,140,255,.34);
+      background: linear-gradient(180deg, rgba(120,140,255,.14), rgba(120,140,255,.07));
+    }
+    .btn.small{
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .pills{ margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color: rgba(255,255,255,.70); }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+
+    .feature{ padding: 18px; display:flex; flex-direction:column; gap:14px; position:relative; }
+    .featureTop{
+      display:flex; justify-content:space-between; gap:10px;
+      padding: 8px 6px 0;
+    }
+    .kicker{
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:12px;
+      color: rgba(255,255,255,.70);
+    }
+    .releaseTitle{
+      margin: 6px 0 0;
+      font-size: 22px;
+      letter-spacing:.02em;
+    }
+
+    .cover{
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      aspect-ratio: 4/5;
+    }
+    .cover img{ width:100%; height:100%; object-fit:cover; display:block; transform: scale(1.02); }
+    .desc{ padding: 0 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .miniRow{ display:flex; gap:10px; flex-wrap:wrap; padding: 0 6px 10px; }
+
+    .grid2{ margin-top: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .section{ padding: 22px; }
+    h2{
+      margin:0;
+      font-size: 16px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color: rgba(255,255,255,.80);
+    }
+    .section p{ margin:10px 0 0; color: var(--muted); line-height:1.6; }
+    .linkgrid{ margin-top: 14px; display:flex; flex-wrap:wrap; gap:10px; }
+
+    .gate{
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+    }
+    .tiny{ margin-top: 10px; font-size: 12px; color: rgba(255,255,255,.52); }
+
+    footer{
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display:flex; justify-content:space-between; align-items:center;
+      gap: 12px; flex-wrap:wrap;
+      font-size: 13px; color: rgba(255,255,255,.60);
+    }
+
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; padding-top: 24px; }
+      .heroMain{ padding: 22px; }
+      .brand{ white-space: normal; }
+    }
+  </style>
 </head>
-<body style="background:#111;color:white;font-family:sans-serif;padding:40px;">
-  <h1>0RD3RS FR0M H3AVEN</h1>
-  <p>If you see this, the domain and deployment are working.</p>
+
+<body>
+  <div class="gridlines"></div>
+
+  <header>
+    <div class="nav">
+      <div class="brand"><span class="led"></span> TRANSMISSIONS RECEIVED</div>
+      <div class="navlinks">
+        <a href="#music">Music</a>
+        <a href="#signal">Signal</a>
+        <a href="#links">Links</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="top">
+      <div class="card frame heroMain">
+        <h1 class="glitch">0RD3RS FR0M H3AVEN</h1>
+        <div class="tagline">“What are your 0RD3RS?”</div>
+        <div class="sub">
+          Futuristic, tech-driven electronic transmissions with a spiritual core.
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
+          <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE MUSIC</a>
+          <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
+        </div>
+
+        <div class="pills">
+          <span class="pill">Futuristic • Tech • Cinematic</span>
+          <span class="pill">Transmission over performance</span>
+          <a class="pill" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon Music</a>
+          <a class="pill" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+
+      <aside class="card frame feature" id="music">
+        <div class="featureTop">
+          <div>
+            <div class="kicker">Current Transmission</div>
+            <div class="releaseTitle"><strong>WAR</strong></div>
+          </div>
+          <div class="kicker" style="opacity:.55;">OUT NOW</div>
+        </div>
+
+        <div class="cover">
+          <img src="war.jpg" alt="WAR cover art" />
+        </div>
+
+        <div class="desc">
+          A confrontation between distortion and clarity. A sonic campaign against internal noise.
+        </div>
+
+        <div class="miniRow">
+          <a class="btn primary small" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM WAR</a>
+          <a class="btn secondary small" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE</a>
+          <a class="btn small" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
+          <a class="btn small" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">AMAZON</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid2">
+      <div class="card frame section" id="signal">
+        <h2>THE SIGNAL</h2>
+        <p>Private transmissions. Early releases. Unreleased material.</p>
+
+        <div class="gate">
+          <strong style="letter-spacing:.08em; color: rgba(255,255,255,.88);">ACCESS: CLOSED</strong>
+          <p style="margin:10px 0 0;">When access opens, you’ll receive the first drop before it hits public channels.</p>
+
+          <div class="linkgrid" style="margin-top:12px;">
+            <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+            <a class="btn small" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TikTok</a>
+          </div>
+
+          <div class="tiny">Next upgrade: real Signal signup (ConvertKit/Mailchimp) + automated welcome message.</div>
+        </div>
+      </div>
+
+      <div class="card frame section" id="links">
+        <h2>OFFICIAL LINKS</h2>
+        <p>Direct routing for listeners, collabs, and future press.</p>
+
+        <div class="linkgrid">
+          <a class="btn small" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">Spotify</a>
+          <a class="btn small" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">Apple Music</a>
+          <a class="btn small" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YouTube</a>
+          <a class="btn small" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon</a>
+          <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn small" href="https://www.facebook.com/share/1DYPzZ95mp/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
+          <a class="btn small" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TikTok</a>
+          <a class="btn small" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
+        </div>
+
+        <div class="tiny">When you’re ready: add booking email + press kit button.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
+      <div class="navlinks">
+        <a href="#top">Top</a>
+        <a href="#music">Music</a>
+        <a href="#signal">Signal</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
