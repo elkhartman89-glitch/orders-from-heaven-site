@@ -13,18 +13,23 @@
   <style>
     :root{
       --bg:#070913;
-      --panel:#0b0f22;
-      --panel2:#0a0d1b;
-      --stroke: rgba(255,255,255,.10);
-      --stroke2: rgba(255,255,255,.16);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
+      --ink: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.66);
+
+      --panelA: rgba(255,255,255,.065);
+      --panelB: rgba(255,255,255,.030);
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.20);
+
       --mint: rgba(78,255,196,.92);
-      --mint2: rgba(78,255,196,.18);
+      --mintSoft: rgba(78,255,196,.20);
+
       --blue: rgba(120,140,255,.92);
-      --blue2: rgba(120,140,255,.18);
+      --blueSoft: rgba(120,140,255,.20);
+
       --radius: 22px;
       --radius2: 16px;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
     }
 
     *{ box-sizing:border-box; }
@@ -32,33 +37,175 @@
     body{
       margin:0;
       font-family:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
+      color: var(--ink);
       background:
-        radial-gradient(900px 520px at 16% 10%, rgba(120,140,255,.18), transparent 60%),
-        radial-gradient(860px 520px at 88% 18%, rgba(78,255,196,.12), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.04), transparent 26%),
+        radial-gradient(980px 700px at 50% -10%, rgba(255,255,255,.06), transparent 55%),
+        radial-gradient(1000px 680px at 16% 10%, rgba(120,140,255,.18), transparent 60%),
+        radial-gradient(980px 680px at 88% 18%, rgba(78,255,196,.12), transparent 62%),
+        radial-gradient(900px 620px at 50% 110%, rgba(78,255,196,.07), transparent 56%),
+        linear-gradient(180deg, rgba(255,255,255,.045), transparent 26%),
         var(--bg);
       overflow-x:hidden;
     }
 
-    /* SAFE subtle motion: no blur, no blend modes */
-    .gridlines{
+    /* Subtle animated grid (iPhone-safe) */
+    .grid{
       position:fixed; inset:0; z-index:-1; pointer-events:none;
       opacity:.12;
       background:
         linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size: 64px 64px;
+      background-size: 72px 72px;
+      animation: drift 22s linear infinite;
+      -webkit-mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
+      mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
       transform: translate3d(0,0,0);
-      mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
-      -webkit-mask-image: radial-gradient(circle at 50% 20%, black 0%, transparent 70%);
+    }
+    @keyframes drift{
+      from{ background-position: 0 0, 0 0; }
+      to{ background-position: 360px 0, 0 360px; }
     }
 
-    .wrap{ max-width:1120px; margin:0 auto; padding: 20px 18px 78px; }
+    /* ===== THRESHOLD OVERLAY ===== */
+    .threshold{
+      position:fixed; inset:0; z-index:999;
+      display:flex; align-items:center; justify-content:center;
+      padding: 22px 18px;
+      background:
+        radial-gradient(860px 520px at 50% -10%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(900px 600px at 50% 0%, rgba(120,140,255,.16), transparent 62%),
+        radial-gradient(900px 600px at 50% 15%, rgba(78,255,196,.08), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85)),
+        #03040a;
+      transition: opacity .42s ease, visibility .42s ease;
+    }
+    .threshold.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
 
-    header{
-      position:sticky; top:0; z-index:20;
-      background: rgba(7,9,19,.88);
+    .th-wrap{
+      width: min(820px, 100%);
+      text-align:center;
+      position:relative;
+    }
+
+    .th-kicker{
+      text-transform:uppercase;
+      letter-spacing:.22em;
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+    }
+
+    .th-title{
+      margin: 14px 0 0;
+      font-size: clamp(34px, 5.2vw, 56px);
+      line-height: 1.05;
+      letter-spacing: .04em;
+      text-transform:uppercase;
+    }
+
+    .th-rule{
+      margin: 14px auto 0;
+      width: min(520px, 92%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+    }
+
+    .th-decree{
+      margin: 16px 0 0;
+      font-size: clamp(16px, 2.1vw, 20px);
+      color: rgba(255,255,255,.84);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      line-height:1.35;
+    }
+    .th-decree span{
+      color: rgba(255,255,255,.90);
+    }
+
+    .ring{
+      margin: 26px auto 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.06), transparent 60%);
+      position:relative;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:
+        0 0 0 1px rgba(78,255,196,.10),
+        0 0 0 1px rgba(120,140,255,.08) inset,
+        0 18px 80px rgba(0,0,0,.55);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{
+        box-shadow:
+          0 0 0 1px rgba(78,255,196,.12),
+          0 0 0 1px rgba(120,140,255,.10) inset,
+          0 18px 80px rgba(0,0,0,.55);
+        transform: translate3d(0,0,0) scale(1);
+      }
+      50%{
+        box-shadow:
+          0 0 0 1px rgba(78,255,196,.22),
+          0 0 26px rgba(78,255,196,.10),
+          0 0 0 1px rgba(120,140,255,.12) inset,
+          0 18px 80px rgba(0,0,0,.55);
+        transform: translate3d(0,0,0) scale(1.02);
+      }
+    }
+    .ring:hover{
+      border-color: rgba(255,255,255,.28);
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.09), transparent 62%);
+    }
+    .ring:active{
+      transform: translate3d(0,0,0) scale(.99);
+    }
+    .ring::before{
+      content:"";
+      position:absolute; inset: -8px;
+      border-radius: inherit;
+      border: 1px solid rgba(78,255,196,.18);
+      opacity:.85;
+    }
+    .ring::after{
+      content:"";
+      position:absolute; inset: -16px;
+      border-radius: inherit;
+      border: 1px solid rgba(120,140,255,.14);
+      opacity:.65;
+    }
+
+    .ring-label{
+      width: 112px;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+      line-height: 1.25;
+    }
+
+    .th-note{
+      margin-top: 18px;
+      font-size: 12px;
+      color: rgba(255,255,255,.55);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    /* ===== MAIN SITE ===== */
+    .wrap{ max-width:1120px; margin:0 auto; padding: 18px 18px 84px; }
+
+    header.site{
+      position:sticky; top:0; z-index:30;
+      background: rgba(7,9,19,.90);
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .nav{
@@ -77,12 +224,12 @@
     .led{
       width:10px; height:10px; border-radius:999px;
       background: var(--mint);
-      box-shadow: 0 0 0 0 rgba(78,255,196,.40);
+      box-shadow: 0 0 0 0 rgba(78,255,196,.38);
       animation: ping 1.4s infinite;
       flex:0 0 auto;
     }
     @keyframes ping{
-      0%{ box-shadow:0 0 0 0 rgba(78,255,196,.40); }
+      0%{ box-shadow:0 0 0 0 rgba(78,255,196,.38); }
       70%{ box-shadow:0 0 0 16px rgba(78,255,196,0); }
       100%{ box-shadow:0 0 0 0 rgba(78,255,196,0); }
     }
@@ -91,60 +238,39 @@
     a:hover{ color:#fff; }
 
     .card{
-      border: 1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      box-shadow: var(--shadow);
       overflow:hidden;
-      box-shadow: 0 18px 60px rgba(0,0,0,.48);
-    }
-
-    /* Tech frame without heavy effects */
-    .frame{
       position:relative;
     }
-    .frame:before{
+    .card:before{
       content:"";
       position:absolute; inset:0;
       pointer-events:none;
-      opacity:.65;
       background:
         radial-gradient(900px 380px at 12% 0%, rgba(78,255,196,.10), transparent 65%),
-        radial-gradient(700px 320px at 92% 20%, rgba(120,140,255,.10), transparent 62%),
-        linear-gradient(90deg, rgba(78,255,196,.10), transparent 30%);
-    }
-    .frame:after{
-      content:"";
-      position:absolute; inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(135deg, transparent 0 96%, rgba(78,255,196,.25) 96% 100%),
-        linear-gradient(315deg, transparent 0 96%, rgba(120,140,255,.20) 96% 100%);
-      opacity:.18;
+        radial-gradient(780px 320px at 92% 18%, rgba(120,140,255,.10), transparent 62%),
+        linear-gradient(90deg, rgba(78,255,196,.10), transparent 32%);
+      opacity:.85;
     }
 
     .hero{
-      padding: 30px 0 18px;
+      padding: 28px 0 18px;
       display:grid;
       grid-template-columns: 1.15fr .85fr;
       gap: 16px;
       align-items: stretch;
     }
-
     .heroMain{ padding: 26px; position:relative; }
     h1{
       margin:0;
       font-size: clamp(40px, 5.2vw, 78px);
       letter-spacing:.01em;
       line-height:1.02;
+      text-shadow: 2px 0 rgba(120,140,255,.30), -2px 0 rgba(78,255,196,.24);
     }
-
-    /* Glitch-lite (safe): text-shadow only */
-    .glitch{
-      text-shadow:
-        2px 0 rgba(120,140,255,.35),
-        -2px 0 rgba(78,255,196,.28);
-    }
-
     .tagline{
       margin-top: 12px;
       font-size: 18px;
@@ -169,6 +295,7 @@
       font-weight: 650;
       transition: transform .08s ease, background .12s ease, border-color .12s ease;
       user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
     .btn:active{ transform: translateY(0px) scale(.99); }
@@ -211,7 +338,6 @@
       font-size: 22px;
       letter-spacing:.02em;
     }
-
     .cover{
       border-radius: 18px;
       overflow:hidden;
@@ -224,7 +350,7 @@
     .miniRow{ display:flex; gap:10px; flex-wrap:wrap; padding: 0 6px 10px; }
 
     .grid2{ margin-top: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .section{ padding: 22px; }
+    .section{ padding: 22px; position:relative; }
     h2{
       margin:0;
       font-size: 16px;
@@ -257,14 +383,41 @@
       .hero{ grid-template-columns: 1fr; padding-top: 24px; }
       .heroMain{ padding: 22px; }
       .brand{ white-space: normal; }
+      .ring{ width: 140px; height: 140px; }
+    }
+
+    /* Reduce motion support */
+    @media (prefers-reduced-motion: reduce){
+      .grid, .ring, .led { animation: none !important; }
+      .threshold{ transition:none !important; }
     }
   </style>
 </head>
 
 <body>
-  <div class="gridlines"></div>
+  <div class="grid"></div>
 
-  <header>
+  <!-- Threshold (shows every time) -->
+  <section class="threshold" id="threshold" aria-label="Threshold">
+    <div class="th-wrap">
+      <div class="th-kicker">ORDERS FROM HEAVEN</div>
+      <div class="th-title">TRANSMISSION ZONE</div>
+      <div class="th-rule"></div>
+      <div class="th-decree">
+        <span>ORDERS</span> ARE NOT REQUESTED.<br/>
+        <span>THEY</span> ARE RECEIVED.
+      </div>
+
+      <div class="ring" id="acceptBtn" role="button" aria-label="Accept Orders" tabindex="0">
+        <div class="ring-label">ACCEPT<br/>ORDERS</div>
+      </div>
+
+      <div class="th-note">PROCEED WITH INTENT</div>
+    </div>
+  </section>
+
+  <!-- Main site -->
+  <header class="site">
     <div class="nav">
       <div class="brand"><span class="led"></span> TRANSMISSIONS RECEIVED</div>
       <div class="navlinks">
@@ -275,13 +428,13 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="main">
     <section class="hero" id="top">
-      <div class="card frame heroMain">
-        <h1 class="glitch">0RD3RS FR0M H3AVEN</h1>
+      <div class="card heroMain">
+        <h1>0RD3RS FR0M H3AVEN</h1>
         <div class="tagline">“What are your 0RD3RS?”</div>
         <div class="sub">
-          Futuristic, tech-driven electronic transmissions with a spiritual core.
+          Ethereal signal, neon edge. Between Earth and Heaven.
         </div>
 
         <div class="ctaRow">
@@ -291,14 +444,14 @@
         </div>
 
         <div class="pills">
-          <span class="pill">Futuristic • Tech • Cinematic</span>
-          <span class="pill">Transmission over performance</span>
+          <span class="pill">Ethereal • Neon • Divine Signal</span>
+          <span class="pill">Between Earth and Heaven</span>
           <a class="pill" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon Music</a>
           <a class="pill" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
         </div>
       </div>
 
-      <aside class="card frame feature" id="music">
+      <aside class="card feature" id="music">
         <div class="featureTop">
           <div>
             <div class="kicker">Current Transmission</div>
@@ -312,7 +465,7 @@
         </div>
 
         <div class="desc">
-          A confrontation between distortion and clarity. A sonic campaign against internal noise.
+          A confrontation between distortion and clarity. A campaign against internal noise.
         </div>
 
         <div class="miniRow">
@@ -325,13 +478,13 @@
     </section>
 
     <section class="grid2">
-      <div class="card frame section" id="signal">
+      <div class="card section" id="signal">
         <h2>THE SIGNAL</h2>
         <p>Private transmissions. Early releases. Unreleased material.</p>
 
         <div class="gate">
           <strong style="letter-spacing:.08em; color: rgba(255,255,255,.88);">ACCESS: CLOSED</strong>
-          <p style="margin:10px 0 0;">When access opens, you’ll receive the first drop before it hits public channels.</p>
+          <p style="margin:10px 0 0;">When access opens, you’ll receive the first drop before public channels.</p>
 
           <div class="linkgrid" style="margin-top:12px;">
             <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
@@ -342,9 +495,9 @@
         </div>
       </div>
 
-      <div class="card frame section" id="links">
+      <div class="card section" id="links">
         <h2>OFFICIAL LINKS</h2>
-        <p>Direct routing for listeners, collabs, and future press.</p>
+        <p>Direct routing for listeners and future press.</p>
 
         <div class="linkgrid">
           <a class="btn small" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">Spotify</a>
@@ -373,6 +526,22 @@
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    const threshold = document.getElementById("threshold");
+    const acceptBtn = document.getElementById("acceptBtn");
+
+    function enterSite(){
+      threshold.classList.add("hidden");
+      // optional: scroll lock release not needed since we never locked it
+      setTimeout(() => {
+        // keep overlay hidden; main remains visible underneath
+      }, 450);
+    }
+
+    acceptBtn.addEventListener("click", enterSite);
+    acceptBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") enterSite();
+    });
   </script>
 </body>
 </html>
