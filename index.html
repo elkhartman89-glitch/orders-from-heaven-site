@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>0RD3RS FR0M H3AVEN</title>
-  <meta name="description" content="0RD3RS FR0M H3AVEN. What are your 0RD3RS?" />
+  <meta name="description" content="0RD3RS FR0M H3AVEN. Orders are not requested. They are received." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,15 +12,16 @@
 
   <style>
     :root{
-      --bg0:#050611;
-      --bg1:#070913;
+      --bg0:#020205;
+      --bg1:#05050a;
+
       --ink: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
 
-      --mint: rgba(78,255,196,.92);
-      --mintSoft: rgba(78,255,196,.22);
-      --blue: rgba(120,140,255,.92);
-      --blueSoft: rgba(120,140,255,.22);
+      --gold: rgba(255,206,120,.98);
+      --goldSoft: rgba(255,206,120,.22);
+      --gold2: rgba(255,168,64,.92);
+      --gold2Soft: rgba(255,168,64,.16);
 
       --stroke: rgba(255,255,255,.12);
       --stroke2: rgba(255,255,255,.20);
@@ -28,7 +29,10 @@
       --radius: 22px;
       --radius2: 16px;
 
-      --shadow: 0 28px 90px rgba(0,0,0,.60);
+      --shadow: 0 28px 90px rgba(0,0,0,.70);
+
+      /* driven by JS (0..1) */
+      --tx: 0;
     }
 
     *{ box-sizing:border-box; }
@@ -38,20 +42,20 @@
       font-family:"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(1100px 760px at 50% -12%, rgba(255,255,255,.06), transparent 58%),
-        radial-gradient(980px 680px at 16% 10%, rgba(120,140,255,.18), transparent 60%),
-        radial-gradient(980px 680px at 88% 18%, rgba(78,255,196,.12), transparent 62%),
-        radial-gradient(900px 620px at 50% 112%, rgba(78,255,196,.07), transparent 56%),
-        linear-gradient(180deg, rgba(255,255,255,.045), transparent 26%),
+        radial-gradient(1100px 760px at 50% -12%, rgba(255,255,255,.05), transparent 58%),
+        radial-gradient(980px 680px at 18% 14%, rgba(255,206,120,.16), transparent 62%),
+        radial-gradient(980px 680px at 86% 18%, rgba(255,168,64,.10), transparent 64%),
+        radial-gradient(900px 620px at 50% 112%, rgba(255,206,120,.07), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.04), transparent 26%),
         var(--bg1);
       overflow-x:hidden;
     }
 
-    /* ===== CANVAS VOID LAYER ===== */
+    /* ===== Background layers ===== */
     .void-canvas{
       position: fixed;
       inset: 0;
-      z-index: -3;
+      z-index: -4;
       width: 100%;
       height: 100%;
       display:block;
@@ -59,31 +63,31 @@
       background: transparent;
     }
 
-    /* Soft fog layers (safe gradients, no filters) */
     .void-fog, .void-mist{
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: -2;
       transform: translate3d(0,0,0);
     }
     .void-fog{
-      opacity: .52;
+      z-index: -3;
+      opacity: calc(0.46 + (var(--tx) * 0.12)); /* breathes slightly */
       background:
-        radial-gradient(900px 520px at 50% -10%, rgba(255,255,255,.07), transparent 60%),
-        radial-gradient(820px 520px at 18% 22%, rgba(120,140,255,.10), transparent 62%),
-        radial-gradient(900px 600px at 84% 26%, rgba(78,255,196,.08), transparent 64%),
+        radial-gradient(900px 520px at 50% -10%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(820px 520px at 18% 22%, rgba(255,206,120,.12), transparent 62%),
+        radial-gradient(900px 600px at 84% 26%, rgba(255,168,64,.08), transparent 64%),
         radial-gradient(1100px 780px at 50% 112%, rgba(255,255,255,.05), transparent 62%);
-      animation: fogDrift 30s ease-in-out infinite alternate;
+      animation: fogDrift 32s ease-in-out infinite alternate;
     }
     .void-mist{
-      opacity: .16;
+      z-index: -2;
+      opacity: calc(0.14 + (var(--tx) * 0.08)); /* breathes slightly */
       background:
         radial-gradient(540px 260px at 30% 38%, rgba(255,255,255,.10), transparent 72%),
         radial-gradient(580px 280px at 70% 55%, rgba(255,255,255,.09), transparent 74%),
         radial-gradient(640px 300px at 46% 78%, rgba(255,255,255,.08), transparent 76%),
         linear-gradient(180deg, rgba(255,255,255,.05), transparent 35%, rgba(255,255,255,.03));
-      animation: mistFlow 20s linear infinite;
+      animation: mistFlow 22s linear infinite;
     }
     @keyframes fogDrift{
       from{ background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
@@ -91,22 +95,38 @@
     }
     @keyframes mistFlow{
       from{ background-position: 0 0, 0 0, 0 0, 0 0; }
-      to  { background-position: 0 -240px, 0 -200px, 0 -280px, 0 -180px; }
+      to  { background-position: 0 -260px, 0 -220px, 0 -300px, 0 -200px; }
     }
 
-    /* A subtle depth fade toward the bottom to increase “gravity” */
     .depth-vignette{
       position: fixed;
       inset: 0;
       pointer-events:none;
       z-index: -1;
       background:
-        radial-gradient(1200px 800px at 50% 18%, rgba(0,0,0,0), rgba(0,0,0,.22) 70%, rgba(0,0,0,.55) 100%),
-        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.52));
-      opacity: .75;
+        radial-gradient(1200px 800px at 50% 18%, rgba(0,0,0,0), rgba(0,0,0,.22) 70%, rgba(0,0,0,.58) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.56));
+      opacity: .78;
     }
 
-    /* ===== THRESHOLD (ALWAYS) ===== */
+    /* Ultra-subtle scanlines */
+    .scanlines{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5; /* above fog, below content (content uses higher z) */
+      opacity: calc(0.028 + (var(--tx) * 0.022)); /* 2.8% -> 5% */
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.10) 0px,
+          rgba(255,255,255,.10) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+    }
+
+    /* ===== Threshold (always) ===== */
     .threshold{
       position: fixed;
       inset: 0;
@@ -117,9 +137,9 @@
       padding: 22px 18px;
       background:
         radial-gradient(860px 520px at 50% -10%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(900px 600px at 50% 0%, rgba(120,140,255,.18), transparent 62%),
-        radial-gradient(900px 600px at 50% 18%, rgba(78,255,196,.10), transparent 62%),
-        linear-gradient(180deg, rgba(0,0,0,.58), rgba(0,0,0,.86)),
+        radial-gradient(900px 600px at 50% 0%, rgba(255,206,120,.16), transparent 62%),
+        radial-gradient(900px 600px at 50% 18%, rgba(255,168,64,.10), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.90)),
         #02030a;
       transition: opacity .46s ease, visibility .46s ease;
     }
@@ -129,8 +149,10 @@
       pointer-events:none;
     }
     .th-wrap{
-      width: min(880px, 100%);
+      width: min(920px, 100%);
       text-align:center;
+      position:relative;
+      z-index: 2;
     }
     .th-kicker{
       text-transform:uppercase;
@@ -140,14 +162,15 @@
     }
     .th-title{
       margin: 14px 0 0;
-      font-size: clamp(34px, 5.2vw, 58px);
+      font-size: clamp(34px, 5.2vw, 60px);
       line-height: 1.05;
-      letter-spacing: .05em;
+      letter-spacing: .06em;
       text-transform:uppercase;
+      text-shadow: 0 0 26px rgba(255,206,120,.12);
     }
     .th-rule{
       margin: 14px auto 0;
-      width: min(520px, 92%);
+      width: min(560px, 92%);
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
     }
@@ -159,12 +182,11 @@
       text-transform:uppercase;
       line-height:1.35;
     }
-    .th-decree span{ color: rgba(255,255,255,.92); }
 
     .ring{
       margin: 28px auto 0;
-      width: 154px;
-      height: 154px;
+      width: 156px;
+      height: 156px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.18);
       background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.07), transparent 62%);
@@ -173,29 +195,29 @@
       align-items:center;
       justify-content:center;
       box-shadow:
-        0 0 0 1px rgba(78,255,196,.12),
-        0 0 0 1px rgba(120,140,255,.10) inset,
-        0 22px 90px rgba(0,0,0,.65);
+        0 0 0 1px rgba(255,206,120,.16),
+        0 0 0 1px rgba(255,168,64,.10) inset,
+        0 22px 90px rgba(0,0,0,.70);
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
       user-select:none;
       transition: transform .12s ease, border-color .12s ease, background .12s ease;
-      animation: pulse 1.7s ease-in-out infinite;
+      animation: pulse 1.8s ease-in-out infinite;
     }
     @keyframes pulse{
       0%,100%{
         box-shadow:
-          0 0 0 1px rgba(78,255,196,.12),
-          0 0 0 1px rgba(120,140,255,.10) inset,
-          0 22px 90px rgba(0,0,0,.65);
+          0 0 0 1px rgba(255,206,120,.16),
+          0 0 0 1px rgba(255,168,64,.10) inset,
+          0 22px 90px rgba(0,0,0,.70);
         transform: translate3d(0,0,0) scale(1);
       }
       50%{
         box-shadow:
-          0 0 0 1px rgba(78,255,196,.22),
-          0 0 30px rgba(78,255,196,.10),
-          0 0 0 1px rgba(120,140,255,.14) inset,
-          0 22px 90px rgba(0,0,0,.65);
+          0 0 0 1px rgba(255,206,120,.26),
+          0 0 30px rgba(255,206,120,.10),
+          0 0 0 1px rgba(255,168,64,.14) inset,
+          0 22px 90px rgba(0,0,0,.70);
         transform: translate3d(0,0,0) scale(1.02);
       }
     }
@@ -208,7 +230,7 @@
       content:"";
       position:absolute; inset:-8px;
       border-radius: inherit;
-      border: 1px solid rgba(78,255,196,.18);
+      border: 1px solid rgba(255,206,120,.20);
       opacity:.85;
       pointer-events:none;
     }
@@ -216,7 +238,7 @@
       content:"";
       position:absolute; inset:-16px;
       border-radius: inherit;
-      border: 1px solid rgba(120,140,255,.14);
+      border: 1px solid rgba(255,168,64,.12);
       opacity:.65;
       pointer-events:none;
     }
@@ -236,13 +258,14 @@
       text-transform:uppercase;
     }
 
-    /* ===== MAIN SITE ===== */
+    /* ===== Main ===== */
     header.site{
       position: sticky;
       top: 0;
-      z-index: 30;
-      background: rgba(7,9,19,.90);
+      z-index: 80;
+      background: rgba(5,5,10,.86);
       border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: none;
     }
     .nav{
       max-width: 1120px;
@@ -252,6 +275,8 @@
       align-items:center;
       justify-content:space-between;
       gap:14px;
+      position: relative;
+      z-index: 90;
     }
     .brand{
       display:flex;
@@ -266,15 +291,15 @@
     .led{
       width:10px; height:10px;
       border-radius:999px;
-      background: var(--mint);
-      box-shadow: 0 0 0 0 rgba(78,255,196,.38);
-      animation: ping 1.4s infinite;
+      background: var(--gold);
+      box-shadow: 0 0 0 0 rgba(255,206,120,.34);
+      animation: ping 1.6s infinite;
       flex:0 0 auto;
     }
     @keyframes ping{
-      0%{ box-shadow:0 0 0 0 rgba(78,255,196,.38); }
-      70%{ box-shadow:0 0 0 16px rgba(78,255,196,0); }
-      100%{ box-shadow:0 0 0 0 rgba(78,255,196,0); }
+      0%{ box-shadow:0 0 0 0 rgba(255,206,120,.34); }
+      70%{ box-shadow:0 0 0 16px rgba(255,206,120,0); }
+      100%{ box-shadow:0 0 0 0 rgba(255,206,120,0); }
     }
     .navlinks{
       display:flex;
@@ -289,43 +314,87 @@
       max-width: 1120px;
       margin: 0 auto;
       padding: 10px 18px 110px;
+      position: relative;
+      z-index: 50;
     }
 
-    /* Descent layout: no box stacks. Big void. */
     .section{
       padding: 92px 0;
       position: relative;
     }
-    .section.compact{ padding: 68px 0; }
-    .section.tight{ padding: 52px 0; }
 
-    .center{ text-align:center; }
-    .max{
-      width: min(900px, 100%);
+    .divider{
+      width: min(860px, 92%);
       margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      opacity: .75;
     }
 
-    /* HERO (dominant, spacious) */
+    /* HERO */
     .hero{
-      padding: 88px 0 70px;
+      padding: 92px 0 72px;
       text-align:center;
       position:relative;
+      overflow:hidden;
     }
+
+    .hero-seal-bg{
+      position:absolute;
+      inset: 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      z-index: 0;
+      opacity: .065;
+      transform: translateY(46px);
+    }
+    .hero-seal-bg img{
+      width: min(980px, 150vw);
+      height:auto;
+      filter: saturate(1.05) contrast(1.05);
+    }
+
+    .hero-logo{
+      margin-bottom: 40px;
+      display:flex;
+      justify-content:center;
+      position:relative;
+      z-index: 2;
+    }
+    .hero-logo img{
+      width: min(270px, 68vw);
+      height:auto;
+      filter:
+        drop-shadow(0 0 22px rgba(255,206,120,.18))
+        drop-shadow(0 0 44px rgba(255,168,64,.10));
+      animation: sealGlow 6.5s ease-in-out infinite;
+    }
+    @keyframes sealGlow{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(0,0,0) scale(1.03); }
+    }
+
     .hero h1{
       margin:0;
       font-size: clamp(44px, 6.2vw, 92px);
-      letter-spacing: .03em;
+      letter-spacing: .04em;
       line-height: 1.03;
       text-transform: uppercase;
       text-shadow:
-        2px 0 rgba(120,140,255,.28),
-        -2px 0 rgba(78,255,196,.22);
+        1.5px 0 rgba(255,206,120,.26),
+        -1.5px 0 rgba(255,168,64,.18);
+      position:relative;
+      z-index: 2;
     }
     .hero .tagline{
       margin-top: 14px;
       font-size: 18px;
       color: rgba(255,255,255,.88);
       letter-spacing:.06em;
+      position:relative;
+      z-index: 2;
     }
     .hero .sub{
       margin-top: 14px;
@@ -335,6 +404,8 @@
       max-width: 76ch;
       margin-left:auto;
       margin-right:auto;
+      position:relative;
+      z-index: 2;
     }
 
     .ctaRow{
@@ -344,6 +415,8 @@
       flex-wrap:wrap;
       justify-content:center;
       align-items:center;
+      position:relative;
+      z-index: 2;
     }
     .btn{
       display:inline-flex;
@@ -365,13 +438,14 @@
       border-color: rgba(255,255,255,.22);
     }
     .btn:active{ transform: translateY(0px) scale(.99); }
+
     .btn.primary{
-      border-color: rgba(78,255,196,.40);
-      background: linear-gradient(180deg, rgba(78,255,196,.16), rgba(78,255,196,.08));
+      border-color: rgba(255,206,120,.42);
+      background: linear-gradient(180deg, rgba(255,206,120,.14), rgba(255,206,120,.06));
     }
     .btn.secondary{
-      border-color: rgba(120,140,255,.34);
-      background: linear-gradient(180deg, rgba(120,140,255,.14), rgba(120,140,255,.07));
+      border-color: rgba(255,168,64,.34);
+      background: linear-gradient(180deg, rgba(255,168,64,.12), rgba(255,168,64,.05));
     }
     .btn.small{
       padding: 11px 14px;
@@ -380,19 +454,8 @@
       font-size: 14px;
     }
 
-    /* Divider line that feels like “deeper” */
-    .divider{
-      width: min(860px, 92%);
-      margin: 0 auto;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-      opacity: .75;
-    }
-
-    /* WAR: cinematic */
-    .war{
-      text-align:center;
-    }
+    /* WAR */
+    .war{ text-align:center; }
     .war .kicker{
       text-transform: uppercase;
       letter-spacing: .20em;
@@ -402,9 +465,10 @@
     .war .title{
       margin: 14px 0 0;
       font-size: clamp(40px, 5vw, 72px);
-      letter-spacing: .06em;
+      letter-spacing: .07em;
       text-transform: uppercase;
       line-height: 1.05;
+      text-shadow: 0 0 26px rgba(255,206,120,.10);
     }
     .war .desc{
       margin-top: 14px;
@@ -425,13 +489,8 @@
       background: rgba(0,0,0,.22);
       box-shadow: var(--shadow);
     }
-    .cover img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
+    .cover img{ display:block; width:100%; height:auto; }
 
-    /* EMBEDS: stable container */
     .embedRow{
       margin-top: 22px;
       display:grid;
@@ -454,10 +513,8 @@
       border:0;
     }
 
-    /* ORIGIN: rises upward (B) */
-    .origin{
-      text-align:center;
-    }
+    /* ORIGIN */
+    .origin{ text-align:center; }
     .origin h2{
       margin:0;
       text-transform:uppercase;
@@ -490,10 +547,8 @@
       letter-spacing:.02em;
     }
 
-    /* SIGNAL: command */
-    .signal{
-      text-align:center;
-    }
+    /* SIGNAL */
+    .signal{ text-align:center; }
     .signal h2{
       margin:0;
       text-transform:uppercase;
@@ -507,6 +562,7 @@
       letter-spacing: .08em;
       text-transform: uppercase;
       line-height: 1.1;
+      text-shadow: 0 0 26px rgba(255,206,120,.08);
     }
     .signal .copy{
       margin-top: 16px;
@@ -518,10 +574,8 @@
       margin-right:auto;
     }
 
-    /* LINKS: vertical list, controlled */
-    .links{
-      text-align:center;
-    }
+    /* LINKS */
+    .links{ text-align:center; }
     .links h2{
       margin:0;
       text-transform:uppercase;
@@ -549,40 +603,61 @@
       flex-wrap:wrap;
     }
 
-    /* Mobile adjustments */
+    /* Mute */
+    .mute{
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 120;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,206,120,.28);
+      background: rgba(0,0,0,.30);
+      color: rgba(255,255,255,.78);
+      font: 600 12px/1 "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mute.on{
+      border-color: rgba(255,206,120,.50);
+      color: rgba(255,255,255,.92);
+      box-shadow: 0 0 22px rgba(255,206,120,.12);
+    }
+
     @media (max-width: 920px){
-      .hero{ padding: 74px 0 56px; }
+      .hero{ padding: 82px 0 64px; }
       .section{ padding: 78px 0; }
       .origin .text{ font-size: 17px; }
       .embedRow{ gap: 12px; }
-      .ring{ width: 144px; height: 144px; }
+      .ring{ width: 146px; height: 146px; }
     }
 
-    /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
-      .void-fog, .void-mist, .grid, .ring, .led { animation: none !important; }
+      .void-fog, .void-mist { animation: none !important; }
       .threshold{ transition:none !important; }
       .origin .text{ transition:none !important; transform:none !important; opacity:1 !important; }
+      .scanlines{ opacity: .025 !important; }
+      .led, .ring, .hero-logo img { animation: none !important; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Living Void -->
   <canvas class="void-canvas" id="void"></canvas>
   <div class="void-fog" aria-hidden="true"></div>
   <div class="void-mist" aria-hidden="true"></div>
   <div class="depth-vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
 
-  <!-- Threshold (always) -->
   <section class="threshold" id="threshold" aria-label="Threshold">
     <div class="th-wrap">
       <div class="th-kicker">ORDERS FROM HEAVEN</div>
       <div class="th-title">TRANSMISSION ZONE</div>
       <div class="th-rule"></div>
       <div class="th-decree">
-        <span>ORDERS</span> ARE NOT REQUESTED.<br/>
-        <span>THEY</span> ARE RECEIVED.
+        ORDERS ARE NOT REQUESTED.<br/>
+        THEY ARE RECEIVED.
       </div>
 
       <div class="ring" id="acceptBtn" role="button" aria-label="Accept Orders" tabindex="0">
@@ -593,213 +668,184 @@
     </div>
   </section>
 
-  <!-- Main -->
   <header class="site">
     <div class="nav">
       <div class="brand"><span class="led"></span> TRANSMISSIONS RECEIVED</div>
       <div class="navlinks">
         <a href="#war">WAR</a>
-        <a href="#origin">Origin</a>
-        <a href="#signal">Signal</a>
-        <a href="#links">Links</a>
+        <a href="#origin">ORIGIN</a>
+        <a href="#signal">SIGNAL</a>
+        <a href="#links">LINKS</a>
       </div>
     </div>
   </header>
 
   <main class="wrap" id="main">
-    <!-- HERO -->
     <section class="hero" id="top">
-      <div class="max">
-        <h1>0RD3RS FR0M H3AVEN</h1>
-        <div class="tagline">“What are your 0RD3RS?”</div>
-        <div class="sub">
-          Ethereal signal, neon edge. Between Earth and Heaven.
-          Orders received in prayer. Executed in sound.
-        </div>
+      <div class="hero-seal-bg" aria-hidden="true">
+        <img src="logo-seal.png" alt="">
+      </div>
 
-        <div class="ctaRow">
-          <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
-          <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE MUSIC</a>
-          <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
-        </div>
+      <div class="hero-logo">
+        <img src="logo-seal.png" alt="0RD3RS FR0M H3AVEN seal">
+      </div>
+
+      <h1>0RD3RS FR0M H3AVEN</h1>
+      <div class="tagline">“What are your 0RD3RS?”</div>
+      <div class="sub">
+        Ethereal signal. Divine authority. Black and gold in the void between realms.
+      </div>
+
+      <div class="ctaRow">
+        <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
+        <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE MUSIC</a>
+        <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- WAR -->
     <section class="section war" id="war">
-      <div class="max">
-        <div class="kicker">Current Transmission</div>
-        <div class="title">WAR</div>
-        <div class="desc">
-          A confrontation between distortion and clarity. A campaign against internal noise.
-        </div>
+      <div class="kicker">Current Transmission</div>
+      <div class="title">WAR</div>
+      <div class="desc">
+        A confrontation between distortion and clarity. A campaign against internal noise.
+      </div>
 
-        <div class="ctaRow">
-          <a class="btn primary" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM WAR</a>
-          <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE</a>
-          <a class="btn" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">AMAZON</a>
-          <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
-        </div>
+      <div class="ctaRow">
+        <a class="btn primary" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM WAR</a>
+        <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE</a>
+        <a class="btn" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">AMAZON</a>
+        <a class="btn" href="https://www.youtube.com/watch?v=VsV2ROMCAsQ" target="_blank" rel="noopener">WATCH</a>
+      </div>
 
-        <!-- Cover art (keep war.jpg in same folder as index.html) -->
-        <div class="cover">
-          <img src="war.jpg" alt="WAR cover art" />
-        </div>
+      <div class="cover">
+        <img src="war.jpg" alt="WAR cover art" />
+      </div>
 
-        <!-- Embeds (extravagant, but stable). Remove any box if you don’t want embeds. -->
-        <div class="embedRow">
-          <div class="embedBox" aria-label="Spotify embed">
-            <iframe
-              style="height:152px"
-              src="https://open.spotify.com/embed/album/73z8Kn0Rq5AR3fTnequjAO?utm_source=generator"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title="Spotify: WAR"
-            ></iframe>
-          </div>
+      <div class="embedRow">
+        <div class="embedBox" aria-label="Spotify embed">
+          <iframe
+            style="height:152px"
+            src="https://open.spotify.com/embed/album/73z8Kn0Rq5AR3fTnequjAO?utm_source=generator"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Spotify: WAR"
+          ></iframe>
+        </div>
 
         <div class="embedBox" aria-label="YouTube embed">
-  <iframe
-    style="height:360px"
-    src="https://www.youtube.com/embed/VsV2ROMCAsQ?rel=0&modestbranding=1"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    loading="lazy"
-    title="YouTube: 0RD3RS FR0M H3AVEN"
-  ></iframe>
-</div>
+          <iframe
+            style="height:360px"
+            src="https://www.youtube.com/embed/VsV2ROMCAsQ?rel=0&modestbranding=1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            loading="lazy"
+            title="YouTube: 0RD3RS FR0M H3AVEN"
+          ></iframe>
         </div>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- ORIGIN (Bio) -->
     <section class="section origin" id="origin">
-      <div class="max">
-        <h2>THE ORIGIN</h2>
+      <h2>THE ORIGIN</h2>
 
-        <div class="text" id="originText">
-          <p>
-            0RD3RS FR0M H3AVEN is the electronic project of <strong>Tommy Sailor</strong> —
-            a Navy veteran from South Bend, Indiana,
-            husband to his wife, father of four boys,
-            worship leader, and sales account manager.
-          </p>
+      <div class="text" id="originText">
+        <p>
+          0RD3RS FR0M H3AVEN is the electronic project of <strong>Tommy Sailor</strong> —
+          a Navy veteran from South Bend, Indiana, husband, father of four boys,
+          worship leader, and sales account manager.
+        </p>
 
-          <p>
-            An ordinary man living an ordinary life.
-            But obedience changes everything.
-          </p>
+        <p>
+          An ordinary man living an ordinary life. But obedience changes everything.
+        </p>
 
-          <p>
-            In a culture that teaches us to create ourselves,
-            to chase impulse,
-            to build identity from noise —
-            this project moves in the opposite direction.
-          </p>
+        <p>
+          In a culture that teaches us to create ourselves, to chase impulse,
+          to build identity from noise — this project moves in the opposite direction.
+        </p>
 
-          <p>
-            Each release begins in prayer.
-            The direction is not self-generated.
-            It is received.
-          </p>
+        <p>
+          Each release begins in prayer. The direction is not self-generated. It is received.
+        </p>
 
-          <p>
-            This is not music for escape.
-            It is music for alignment.
-          </p>
+        <p>
+          This is not music for escape. It is music for alignment.
+        </p>
 
-          <p>
-            Not rebellion against God —
-            but rebellion against the distortion that keeps us from Him.
-          </p>
+        <p>
+          Not rebellion against God — but rebellion against the distortion that keeps us from Him.
+        </p>
 
-          <p>
-            Neon meets surrender.
-            Sound becomes instruction.
-          </p>
+        <p>
+          Neon meets surrender. Sound becomes instruction.
+        </p>
 
-          <p class="scripture">
-            “Be transformed by the renewing of your mind.” — Romans 12:2
-          </p>
-        </div>
+        <p class="scripture">
+          “Be transformed by the renewing of your mind.” — Romans 12:2
+        </p>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- SIGNAL -->
     <section class="section signal" id="signal">
-      <div class="max">
-        <h2>THE SIGNAL</h2>
-        <div class="status">ACCESS: CLOSED</div>
-        <div class="copy">
-          Private transmissions. Early releases. Unreleased material.
-          When access opens, you will receive the first drop before public channels.
-        </div>
+      <h2>THE SIGNAL</h2>
+      <div class="status">ACCESS: CLOSED</div>
+      <div class="copy">
+        Private transmissions. Early releases. Unreleased material.
+        When access opens, you will receive the first drop before public channels.
+      </div>
 
-        <div class="ctaRow">
-          <a class="btn secondary" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">INSTAGRAM</a>
-          <a class="btn" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TIKTOK</a>
-        </div>
+      <div class="ctaRow">
+        <a class="btn secondary" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">INSTAGRAM</a>
+        <a class="btn" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TIKTOK</a>
+      </div>
 
-        <div style="margin-top:18px; font-size:12px; color: rgba(255,255,255,.56); letter-spacing:.08em; text-transform:uppercase;">
-          Next upgrade: real Signal signup + automated welcome message.
-        </div>
+      <div style="margin-top:18px; font-size:12px; color: rgba(255,255,255,.56); letter-spacing:.08em; text-transform:uppercase;">
+        Next: email capture + automated welcome transmission.
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- LINKS -->
     <section class="section links" id="links">
-      <div class="max">
-        <h2>OFFICIAL LINKS</h2>
+      <h2>OFFICIAL LINKS</h2>
 
-        <div class="linkgrid">
-          <a class="btn small primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">Spotify</a>
-          <a class="btn small secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">Apple Music</a>
-          <a class="btn small" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YouTube</a>
-          <a class="btn small" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon Music</a>
+      <div class="linkgrid">
+        <a class="btn small primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">Spotify</a>
+        <a class="btn small secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">Apple Music</a>
+        <a class="btn small" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn small" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon</a>
 
-          <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-          <a class="btn small" href="https://www.facebook.com/share/1DYPzZ95mp/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
-          <a class="btn small" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TikTok</a>
-          <a class="btn small" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
-        </div>
-
-        <footer>
-          <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
-          <div class="navlinks">
-            <a href="#top">Top</a>
-            <a href="#war">WAR</a>
-            <a href="#origin">Origin</a>
-            <a href="#signal">Signal</a>
-          </div>
-        </footer>
+        <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn small" href="https://www.facebook.com/share/1DYPzZ95mp/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn small" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TikTok</a>
+        <a class="btn small" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
       </div>
+
+      <footer>
+        <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
+        <div class="navlinks">
+          <a href="#top">TOP</a>
+          <a href="#war">WAR</a>
+          <a href="#origin">ORIGIN</a>
+          <a href="#signal">SIGNAL</a>
+        </div>
+      </footer>
     </section>
   </main>
 
+  <button id="muteBtn" class="mute" aria-label="Mute transmission audio" title="Mute transmission">MUTE</button>
+
   <script>
-    // Year
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    // Threshold (always)
     const threshold = document.getElementById("threshold");
     const acceptBtn = document.getElementById("acceptBtn");
 
-    function enterSite(){
-      threshold.classList.add("hidden");
-    }
-    acceptBtn.addEventListener("click", enterSite);
-    acceptBtn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") enterSite();
-    });
-
-    // Origin rise animation (B)
     const originText = document.getElementById("originText");
     const originObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -808,7 +854,175 @@
     }, { threshold: 0.28 });
     originObserver.observe(originText);
 
-    // ===== Living Void Canvas (particles + haze) =====
+    // ===== Transmission Audio (procedural, starts on ACCEPT ORDERS) =====
+    let tx = null;
+    let isMuted = false;
+
+    function createTransmissionAudio(){
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return null;
+
+      const ctx = new AudioCtx();
+      const master = ctx.createGain();
+      master.gain.value = 0.0;
+      master.connect(ctx.destination);
+
+      function makeNoiseBuffer(){
+        const seconds = 2.0;
+        const len = Math.floor(ctx.sampleRate * seconds);
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        let last = 0;
+        for (let i=0; i<len; i++){
+          const white = (Math.random() * 2 - 1);
+          last = last * 0.985 + white * 0.015;
+          data[i] = last;
+        }
+        return buf;
+      }
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = makeNoiseBuffer();
+      noise.loop = true;
+
+      const band = ctx.createBiquadFilter();
+      band.type = "bandpass";
+      band.frequency.value = 620;
+      band.Q.value = 0.95;
+
+      const low = ctx.createBiquadFilter();
+      low.type = "lowpass";
+      low.frequency.value = 1650;
+      low.Q.value = 0.6;
+
+      const sine = ctx.createOscillator();
+      sine.type = "sine";
+      sine.frequency.value = 172;
+
+      const sineGain = ctx.createGain();
+      sineGain.gain.value = 0.0;
+
+      const lfo = ctx.createOscillator();
+      lfo.type = "sine";
+      lfo.frequency.value = 0.03;
+
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 210;
+
+      const trem = ctx.createOscillator();
+      trem.type = "sine";
+      trem.frequency.value = 0.08;
+
+      const tremGain = ctx.createGain();
+      tremGain.gain.value = 0.015;
+
+      noise.connect(band);
+      band.connect(low);
+      low.connect(master);
+
+      sine.connect(sineGain);
+      sineGain.connect(master);
+
+      lfo.connect(lfoGain);
+      lfoGain.connect(band.frequency);
+
+      trem.connect(tremGain);
+      tremGain.connect(master.gain);
+
+      noise.start();
+      sine.start();
+      lfo.start();
+      trem.start();
+
+      const now = ctx.currentTime;
+      master.gain.setValueAtTime(0.0, now);
+      master.gain.linearRampToValueAtTime(0.06, now + 1.6);
+      sineGain.gain.setValueAtTime(0.0, now);
+      sineGain.gain.linearRampToValueAtTime(0.006, now + 2.0);
+
+      return { ctx, master };
+    }
+
+    function setTransmissionVolume(vol){
+      if (!tx) return;
+      const v = Math.max(0, Math.min(1, vol));
+      const t = tx.ctx.currentTime;
+      tx.master.gain.cancelScheduledValues(t);
+      tx.master.gain.linearRampToValueAtTime(v, t + 0.25);
+    }
+
+    function startTransmission(){
+      if (tx) return;
+      tx = createTransmissionAudio();
+      if (!tx) return;
+      if (tx.ctx.state === "suspended") tx.ctx.resume();
+
+      const maxVol = 0.10;
+      const minVol = 0.02;
+
+      const onScroll = () => {
+        if (isMuted) return;
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+        const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
+        const p = Math.max(0, Math.min(1, scrollTop / scrollMax));
+        const vol = maxVol * (1 - p) + minVol * p;
+        setTransmissionVolume(vol);
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    const muteBtn = document.getElementById("muteBtn");
+    muteBtn.addEventListener("click", () => {
+      isMuted = !isMuted;
+      muteBtn.classList.toggle("on", isMuted);
+      muteBtn.textContent = isMuted ? "UNMUTE" : "MUTE";
+      if (!tx) return;
+      if (isMuted) setTransmissionVolume(0.0);
+      else {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || 0;
+        const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
+        const p = Math.max(0, Math.min(1, scrollTop / scrollMax));
+        const maxVol = 0.10, minVol = 0.02;
+        setTransmissionVolume(maxVol * (1 - p) + minVol * p);
+      }
+    });
+
+    // ===== Visual sync “breath” =====
+    let txRAF = null;
+    function startTxVisualSync(){
+      if (txRAF) return;
+      const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
+
+      const start = performance.now();
+      const breathHz = 0.03;
+
+      const tick = (t) => {
+        const seconds = (t - start) / 1000;
+        const breath = 0.5 + 0.5 * Math.sin(seconds * Math.PI * 2 * breathHz);
+        document.documentElement.style.setProperty("--tx", breath.toFixed(3));
+        txRAF = requestAnimationFrame(tick);
+      };
+
+      txRAF = requestAnimationFrame(tick);
+    }
+
+    function enterSite(){
+      threshold.classList.add("hidden");
+      startTransmission();
+      startTxVisualSync();
+    }
+
+    acceptBtn.addEventListener("click", enterSite);
+    acceptBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") enterSite();
+    });
+
+    // ===== Living Void Canvas: particles + subtle “presences” rising upward =====
     (function(){
       const canvas = document.getElementById("void");
       const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
@@ -820,11 +1034,11 @@
       const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const isTouch = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
-      // Performance target: fewer particles on mobile
-      const baseCount = isTouch ? 120 : 220;
-      const count = prefersReduced ? 0 : baseCount;
+      const particleCount = prefersReduced ? 0 : (isTouch ? 120 : 220);
+      const presenceCount = prefersReduced ? 0 : (isTouch ? 2 : 3);
 
       const particles = [];
+      const presences = [];
       const rand = (a,b)=> a + Math.random()*(b-a);
 
       function resize(){
@@ -837,42 +1051,91 @@
         canvas.style.height = h + "px";
         ctx.setTransform(dpr,0,0,dpr,0,0);
 
-        // Re-seed particles on resize
         particles.length = 0;
-        for (let i=0; i<count; i++){
+        for (let i=0; i<particleCount; i++){
           particles.push({
             x: rand(0,w),
             y: rand(0,h),
-            r: rand(0.6, 2.4),
+            r: rand(0.6, 2.3),
             vx: rand(-0.06, 0.06),
             vy: rand(-0.10, 0.10),
-            a: rand(0.06, 0.22),
-            hue: Math.random() < 0.55 ? "mint" : "blue",
+            a: rand(0.05, 0.20),
             tw: rand(0.002, 0.010),
-            t: rand(0, 1000)
+            t: rand(0, 1000),
+            warm: Math.random() < 0.8
+          });
+        }
+
+        presences.length = 0;
+        for (let i=0; i<presenceCount; i++){
+          presences.push({
+            x: rand(w*0.15, w*0.85),
+            y: rand(h*0.70, h*1.10),
+            s: rand(0.85, 1.25),
+            vy: rand(0.018, 0.035),
+            drift: rand(-0.010, 0.010),
+            phase: rand(0, Math.PI*2),
+            alpha: rand(0.018, 0.040)
           });
         }
       }
 
       function drawFogBands(t){
-        // Very light “bands” to feel like fog sheets moving in the void
-        // (No blur filters. Just soft gradients.)
-        const y1 = (Math.sin(t*0.00025) * 40) + h*0.18;
-        const y2 = (Math.sin(t*0.00018 + 2.1) * 55) + h*0.52;
-        const y3 = (Math.sin(t*0.00015 + 4.2) * 65) + h*0.78;
+        const y1 = (Math.sin(t*0.00022) * 44) + h*0.20;
+        const y2 = (Math.sin(t*0.00017 + 2.1) * 56) + h*0.54;
+        const y3 = (Math.sin(t*0.00014 + 4.2) * 66) + h*0.80;
 
-        function band(y, alpha, color){
-          const g = ctx.createLinearGradient(0, y-120, 0, y+140);
+        function band(y, a, color){
+          const g = ctx.createLinearGradient(0, y-140, 0, y+160);
           g.addColorStop(0, "rgba(255,255,255,0)");
-          g.addColorStop(0.45, color.replace("ALPHA", alpha.toFixed(3)));
+          g.addColorStop(0.48, color.replace("ALPHA", a.toFixed(3)));
           g.addColorStop(1, "rgba(255,255,255,0)");
           ctx.fillStyle = g;
-          ctx.fillRect(0, y-140, w, 280);
+          ctx.fillRect(0, y-170, w, 340);
         }
 
-        band(y1, 0.06, "rgba(120,140,255,ALPHA)");
-        band(y2, 0.05, "rgba(78,255,196,ALPHA)");
-        band(y3, 0.04, "rgba(255,255,255,ALPHA)");
+        band(y1, 0.040, "rgba(255,206,120,ALPHA)");
+        band(y2, 0.030, "rgba(255,168,64,ALPHA)");
+        band(y3, 0.024, "rgba(255,255,255,ALPHA)");
+      }
+
+      function drawPresence(p, t){
+        const wob = Math.sin(t*0.00035 + p.phase) * 10;
+        const x = p.x + wob;
+        const y = p.y;
+
+        const width = 260 * p.s;
+        const height = 120 * p.s;
+
+        const rg = ctx.createRadialGradient(x, y, 10, x, y, width*0.65);
+        rg.addColorStop(0, `rgba(0,0,0,${(p.alpha*1.1).toFixed(3)})`);
+        rg.addColorStop(0.7, `rgba(0,0,0,${(p.alpha*0.5).toFixed(3)})`);
+        rg.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = rg;
+        ctx.beginPath();
+        ctx.ellipse(x, y, width*0.42, height*0.60, 0, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.strokeStyle = `rgba(0,0,0,${(p.alpha*0.85).toFixed(3)})`;
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.moveTo(x - width*0.05, y);
+        ctx.quadraticCurveTo(x - width*0.38, y - height*0.28, x - width*0.48, y + height*0.12);
+        ctx.quadraticCurveTo(x - width*0.30, y + height*0.02, x - width*0.12, y + height*0.10);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x + width*0.05, y);
+        ctx.quadraticCurveTo(x + width*0.38, y - height*0.28, x + width*0.48, y + height*0.12);
+        ctx.quadraticCurveTo(x + width*0.30, y + height*0.02, x + width*0.12, y + height*0.10);
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(255,206,120,${(p.alpha*0.35).toFixed(3)})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y - height*0.02, 22*p.s, 0, Math.PI*2);
+        ctx.stroke();
       }
 
       function render(t){
@@ -881,31 +1144,25 @@
 
         ctx.clearRect(0,0,w,h);
 
-        // Ambient haze
         drawFogBands(t);
 
-        // Particles
         for (let i=0; i<particles.length; i++){
           const p = particles[i];
           p.t += dt;
-          // Twinkle
           const tw = 0.5 + 0.5*Math.sin(p.t * p.tw);
           const alpha = p.a * (0.65 + 0.7*tw);
 
-          // Drift
           p.x += p.vx * dt;
           p.y += p.vy * dt;
 
-          // Wrap
           if (p.x < -20) p.x = w + 20;
           if (p.x > w + 20) p.x = -20;
           if (p.y < -20) p.y = h + 20;
           if (p.y > h + 20) p.y = -20;
 
-          // Color
-          const col = (p.hue === "mint")
-            ? `rgba(78,255,196,${alpha.toFixed(3)})`
-            : `rgba(120,140,255,${alpha.toFixed(3)})`;
+          const col = p.warm
+            ? `rgba(255,206,120,${alpha.toFixed(3)})`
+            : `rgba(255,255,255,${(alpha*0.85).toFixed(3)})`;
 
           ctx.beginPath();
           ctx.fillStyle = col;
@@ -913,11 +1170,25 @@
           ctx.fill();
         }
 
-        // Subtle top “divine source”
-        const top = ctx.createRadialGradient(w*0.5, -h*0.10, 20, w*0.5, -h*0.10, Math.max(w,h)*0.85);
-        top.addColorStop(0, "rgba(255,255,255,0.06)");
-        top.addColorStop(0.25, "rgba(120,140,255,0.04)");
-        top.addColorStop(0.55, "rgba(78,255,196,0.025)");
+        for (let i=0; i<presences.length; i++){
+          const p = presences[i];
+          p.y -= p.vy * dt;
+          p.x += p.drift * dt;
+
+          if (p.y < -120){
+            p.y = h + rand(120, 420);
+            p.x = rand(w*0.15, w*0.85);
+          }
+          if (p.x < -240) p.x = w + 240;
+          if (p.x > w + 240) p.x = -240;
+
+          drawPresence(p, t);
+        }
+
+        const top = ctx.createRadialGradient(w*0.5, -h*0.12, 20, w*0.5, -h*0.12, Math.max(w,h)*0.85);
+        top.addColorStop(0, "rgba(255,255,255,0.05)");
+        top.addColorStop(0.25, "rgba(255,206,120,0.04)");
+        top.addColorStop(0.55, "rgba(255,168,64,0.022)");
         top.addColorStop(1, "rgba(0,0,0,0)");
         ctx.fillStyle = top;
         ctx.fillRect(0,0,w,h);
