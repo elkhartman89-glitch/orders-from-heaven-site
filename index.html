@@ -2,318 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0a0d12" />
-  <title>0RD3RS FR0M H3AVEN</title>
-  <meta name="description" content="0RD3RS FR0M H3AVEN | TRANSMISSIONS RECEIVED." />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>0RD3RS FR0M H3AVEN | Official HQ</title>
+  <meta name="description" content="0RD3RS FR0M H3AVEN Official HQ. Electronic signal with a spiritual core." />
   <style>
-    :root{
-      --bg0:#07090d;
-      --bg1:#0a0d12;
-      --ink:#e9eef7;
-      --muted:#a8b2c3;
-      --line:rgba(255,255,255,.10);
-      --accent:#8ab6ff;
-      --accent2:#d7e6ff;
-      --shadow: 0 24px 80px rgba(0,0,0,.55);
-      --radius: 20px;
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(120,140,255,.18), transparent 60%),
+                  radial-gradient(1000px 600px at 90% 20%, rgba(0,255,200,.08), transparent 55%),
+                  #07080b;
+      color: rgba(255,255,255,.92);
+      line-height: 1.35;
     }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 700px at 70% 20%, rgba(138,182,255,.18), transparent 60%),
-        radial-gradient(900px 600px at 20% 85%, rgba(255,255,255,.07), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px 18px 56px; }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 10px 0 18px; border-bottom: 1px solid rgba(255,255,255,.08);
+      position: sticky; top: 0; backdrop-filter: blur(10px); background: rgba(7,8,11,.55);
+      z-index: 10;
     }
-
-    /* subtle grain */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
-      mix-blend-mode:overlay;
-      opacity:.20;
+    .brand { font-weight: 700; letter-spacing: .08em; font-size: 12px; opacity: .9; }
+    .links { display: flex; gap: 14px; flex-wrap: wrap; }
+    a { color: rgba(255,255,255,.85); text-decoration: none; }
+    a:hover { color: #fff; }
+    .hero { padding: 38px 0 28px; }
+    h1 { margin: 0; font-size: clamp(34px, 6vw, 64px); letter-spacing: .02em; }
+    .tag {
+      margin-top: 10px; max-width: 60ch;
+      font-size: 16px; opacity: .88;
     }
-
-    .wrap{max-width:1060px; margin:0 auto; padding:28px 18px 80px}
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; padding:10px 4px 22px;
+    .btns { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 16px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
+      font-weight: 600;
     }
-    .brand{
-      display:flex; flex-direction:column; gap:4px;
-      letter-spacing:.14em; text-transform:uppercase;
-      font-weight:700; font-size:13px; color:var(--accent2);
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
+    .btn.primary {
+      background: rgba(40, 255, 170, .12);
+      border-color: rgba(40, 255, 170, .35);
     }
-    .brand span{color:var(--muted); font-weight:600; letter-spacing:.18em; font-size:11px}
-    .nav{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    .section { margin-top: 26px; padding: 22px; border-radius: 18px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } nav { position: relative; } }
+    .cover {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: #0b0d12;
     }
-    .nav a{
-      color:var(--muted); text-decoration:none; font-size:12px;
-      padding:10px 12px; border:1px solid transparent; border-radius:999px;
-      transition:transform .15s ease, border-color .15s ease, color .15s ease, background .15s ease;
+    .cover img { width: 100%; height: auto; display: block; }
+    h2 { margin: 0 0 10px; font-size: 18px; letter-spacing: .03em; text-transform: uppercase; opacity: .9; }
+    .title { font-size: 22px; margin: 0 0 8px; }
+    .muted { opacity: .72; }
+    .small { font-size: 13px; opacity: .7; }
+    footer { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .pulse {
+      display:inline-block; width:8px; height:8px; border-radius: 50%;
+      background: rgba(40,255,170,.9);
+      box-shadow: 0 0 0 0 rgba(40,255,170,.55);
+      animation: ping 1.6s infinite;
+      margin-right: 8px;
+      vertical-align: middle;
     }
-    .nav a:hover{color:var(--ink); border-color:var(--line); background:rgba(255,255,255,.04); transform:translateY(-1px)}
-
-    .hero{
-      padding:64px 10px 34px;
-      display:grid; gap:18px;
-    }
-    .kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      color:var(--muted); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
-    }
-    .dot{
-      width:7px; height:7px; border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 18px rgba(138,182,255,.85);
-    }
-    h1{
-      margin:0;
-      font-size: clamp(34px, 5vw, 64px);
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      line-height:1.05;
-    }
-    .sub{
-      max-width:66ch;
-      margin:8px 0 0;
-      color:var(--muted);
-      font-size: clamp(15px, 2.2vw, 18px);
-      line-height:1.6;
-    }
-
-    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
-    .btn{
-      border-radius:999px;
-      padding:14px 18px;
-      font-weight:750;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      font-size:12px;
-      text-decoration:none;
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      border:1px solid var(--line);
-      color:var(--ink);
-      background:rgba(255,255,255,.04);
-      transition:transform .15s ease, background .15s ease, border-color .15s ease;
-    }
-    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.06); border-color:rgba(138,182,255,.35)}
-    .btnPrimary{
-      background:linear-gradient(180deg, rgba(138,182,255,.22), rgba(255,255,255,.04));
-      border-color:rgba(138,182,255,.35);
-      box-shadow:0 0 0 1px rgba(138,182,255,.12) inset;
-    }
-    .btnPrimary:hover{border-color:rgba(138,182,255,.55)}
-    .btnGhost{background:transparent}
-
-    .grid{
-      margin-top:26px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-    }
-    @media (max-width: 920px){
-      .grid{grid-template-columns:1fr}
-      .hero{padding-top:46px}
-    }
-
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background:rgba(0,0,0,.18);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .cardPad{padding:18px}
-    .cardTitle{
-      margin:0;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .war{
-      display:grid;
-      grid-template-columns: 180px 1fr;
-      gap:16px;
-      align-items:center;
-    }
-    @media (max-width:560px){
-      .war{grid-template-columns:1fr}
-    }
-
-    .cover{
-      width:100%;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      aspect-ratio: 1 / 1.25;
-      overflow:hidden;
-      display:flex; align-items:center; justify-content:center;
-      color:rgba(255,255,255,.35);
-      font-size:12px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-    }
-    .cover img{width:100%; height:100%; object-fit:cover; display:block}
-    .war h2{
-      margin:6px 0 8px;
-      font-size:30px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-    .war p{margin:0; color:var(--muted); line-height:1.6}
-
-    .signal p{color:var(--muted); line-height:1.6; margin:10px 0 14px}
-    .fieldRow{
-      display:flex; gap:10px; flex-wrap:wrap;
-    }
-    input{
-      flex: 1 1 220px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      padding:14px 14px;
-      background:rgba(255,255,255,.03);
-      color:var(--ink);
-      outline:none;
-      font-size:14px;
-    }
-    input:focus{border-color:rgba(138,182,255,.55); box-shadow:0 0 0 3px rgba(138,182,255,.12)}
-    .small{
-      margin-top:10px;
-      font-size:12px;
-      color:rgba(168,178,195,.85);
-    }
-
-    .footer{
-      margin-top:22px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; flex-wrap:wrap;
-      padding:18px 6px 0;
-      color:rgba(168,178,195,.85);
-      border-top:1px solid rgba(255,255,255,.06);
-    }
-    .footer a{color:rgba(168,178,195,.95); text-decoration:none}
-    .footer a:hover{color:var(--ink)}
-    .links{display:flex; gap:14px; flex-wrap:wrap}
+    @keyframes ping { 0%{ box-shadow: 0 0 0 0 rgba(40,255,170,.55);} 70%{ box-shadow: 0 0 0 14px rgba(40,255,170,0);} 100%{ box-shadow: 0 0 0 0 rgba(40,255,170,0);} }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        0RD3RS FR0M H3AVEN
-        <span>Official HQ</span>
-      </div>
-      <div class="nav">
-        <a href="#war">WAR</a>
-        <a href="#signal">Signal</a>
-        <a href="https://www.instagram.com/0rd3rsfr0mh3aven" target="_blank" rel="noreferrer">Instagram</a>
-      </div>
+  <nav class="wrap">
+    <div class="brand"><span class="pulse"></span>TRANSMISSIONS RECEIVED</div>
+    <div class="links">
+      <a href="#war">WAR</a>
+      <a href="#signal">Signal</a>
+      <a href="https://www.instagram.com/0rd3rsfr0mh3aven/" target="_blank" rel="noopener">Instagram</a>
     </div>
+  </nav>
 
+  <main class="wrap">
     <section class="hero">
-      <div class="kicker"><span class="dot"></span> Transmissions Received</div>
       <h1>0RD3RS FR0M H3AVEN</h1>
-      <p class="sub">
-        Electronic signal with a spiritual core. Built on tension. Carried by conviction.
-      </p>
+      <p class="tag">Electronic signal with a spiritual core. Built on tension. Carried by conviction.</p>
 
-      <div class="ctaRow">
-        <a class="btn btnPrimary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud" target="_blank" rel="noreferrer">
-          STREAM ON SPOTIFY
-        </a>
-        <a class="btn btnGhost" href="#signal">JOIN THE SIGNAL</a>
+      <div class="btns">
+        <a class="btn primary" href="https://open.spotify.com/artist/" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
+        <a class="btn" href="#signal">JOIN THE SIGNAL</a>
+      </div>
+      <p class="small muted" style="margin-top:10px;">We can swap that Spotify link to your exact artist URL anytime.</p>
+    </section>
+
+    <section id="war" class="section">
+      <h2>Current Transmission</h2>
+      <div class="grid">
+        <div class="cover">
+          <img src="war.jpg" alt="WAR cover art" />
+        </div>
+        <div>
+          <p class="title"><strong>WAR</strong></p>
+          <p class="muted">A confrontation between distortion and clarity. A sonic campaign against internal noise.</p>
+          <div class="btns" style="margin-top:14px;">
+            <a class="btn primary" href="https://open.spotify.com/" target="_blank" rel="noopener">STREAM WAR</a>
+            <a class="btn" href="https://www.instagram.com/0rd3rsfr0mh3aven/" target="_blank" rel="noopener">FOLLOW ON IG</a>
+          </div>
+          <p class="small muted" style="margin-top:12px;">More platform links can be added later without changing the vibe.</p>
+        </div>
       </div>
     </section>
 
-    <div class="grid">
-      <section id="war" class="card">
-        <div class="cardPad">
-          <p class="cardTitle">Current Transmission</p>
+    <section id="signal" class="section">
+      <h2>Join the Signal</h2>
+      <p class="muted">Private transmissions. Early drops. Unreleased material.</p>
+      <p class="muted">Tap below to open your mail app and send your email.</p>
+      <div class="btns" style="margin-top:12px;">
+        <a class="btn primary" href="mailto:YOUR_EMAIL_HERE?subject=Join%20the%20Signal&body=Add%20me%20to%20the%20Signal%20List.%0A%0AName%3A%0AEmail%3A%0A">
+          SEND
+        </a>
+      </div>
+      <p class="small muted" style="margin-top:12px;">Later we’ll swap this for a real signup (ConvertKit/Mailchimp) and a custom booking email on your domain.</p>
+    </section>
 
-          <div class="war" style="margin-top:14px">
-            <div class="cover">
-              <!-- Optional: upload your WAR cover as war.jpg to the repo and it will show automatically -->
-              <img src="war.jpg" alt="WAR cover art" onerror="this.remove(); this.parentElement.textContent='Upload war.jpg to show cover';" />
-            </div>
-
-            <div>
-              <h2>WAR</h2>
-              <p>
-                A confrontation between distortion and clarity. A sonic campaign against internal noise.
-              </p>
-              <div class="ctaRow" style="margin-top:14px">
-                <a class="btn btnPrimary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud" target="_blank" rel="noreferrer">
-                  STREAM WAR
-                </a>
-                <a class="btn" href="https://www.instagram.com/0rd3rsfr0mh3aven" target="_blank" rel="noreferrer">
-                  FOLLOW ON IG
-                </a>
-              </div>
-              <p class="small">More platform links can be added later without changing the vibe.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="signal" class="card signal">
-        <div class="cardPad">
-          <p class="cardTitle">Join the Signal</p>
-          <p>
-            Private transmissions. Early drops. Unreleased material.
-            Enter your email and tap “Send” to open your mail app.
-          </p>
-
-          <div class="fieldRow">
-            <input id="email" type="email" placeholder="your@email.com" autocomplete="email" />
-            <button class="btn btnPrimary" style="cursor:pointer" onclick="joinSignal()">
-              SEND
-            </button>
-          </div>
-
-          <p class="small">
-            Later we’ll swap this for a real signup (ConvertKit/Mailchimp) and a custom booking email on your domain.
-          </p>
-        </div>
-      </section>
-    </div>
-
-    <div class="footer">
-      <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
+    <footer>
+      <div class="small muted">© 0RD3RS FR0M H3AVEN</div>
       <div class="links">
-        <a href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud" target="_blank" rel="noreferrer">Spotify</a>
-        <a href="https://www.instagram.com/0rd3rsfr0mh3aven" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://open.spotify.com/" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://www.instagram.com/0rd3rsfr0mh3aven/" target="_blank" rel="noopener">Instagram</a>
         <a href="#signal">Signal</a>
       </div>
-    </div>
-  </div>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-
-    function joinSignal(){
-      const email = (document.getElementById("email").value || "").trim();
-      const subject = encodeURIComponent("JOIN THE SIGNAL");
-      const body = encodeURIComponent(
-        "Add me to the Signal list.\n\nEmail: " + (email || "[enter email]") + "\n\n— Sent from ordersfromheaven.com"
-      );
-      // Temporary method: opens the user's mail app. We’ll replace with a real signup form later.
-      window.location.href = "mailto:booking@ordersfromheaven.com?subject=" + subject + "&body=" + body;
-    }
-  </script>
+    </footer>
+  </main>
 </body>
 </html>
