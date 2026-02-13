@@ -301,6 +301,7 @@
         radial-gradient(800px 560px at 50% 60%, rgba(255,206,120,.12), transparent 62%),
         linear-gradient(180deg, rgba(0,0,0,.88), rgba(0,0,0,.94));
       backdrop-filter: blur(10px);
+      transition: opacity .35s ease;
     }
     .gateInner{
       width: min(820px, 100%);
@@ -344,7 +345,6 @@
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
       position:relative;
-      box-shadow: 0 0 0 0 rgba(255,206,120,.16);
       transition: transform .10s ease;
       user-select:none;
     }
@@ -355,7 +355,6 @@
       border-radius:999px;
       border: 1px solid rgba(255,206,120,.18);
       opacity:.9;
-      filter: blur(.2px);
     }
     .ringBtn::after{
       content:"";
@@ -371,6 +370,7 @@
       font-weight: 700;
       color: rgba(255,255,255,.88);
       line-height: 1.4;
+      text-align:center;
     }
     .gateHint{
       margin-top: 12px;
@@ -382,7 +382,6 @@
     .gateHidden{
       opacity:0;
       pointer-events:none;
-      transition: opacity .35s ease;
     }
 
     @media (max-width: 920px){
@@ -567,7 +566,7 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    // ---------- AUDIO (must start on user gesture on iPhone) ----------
+    // ---------- AUDIO (starts on gate click, fades with scroll) ----------
     let audio = null;
     let isOn = false;
 
@@ -629,10 +628,29 @@
 
     function setVol(v){
       if (!audio) return;
+      const vol = Math.max(0, Math.min(1, v));
       const t = audio.ctx.currentTime;
       audio.master.gain.cancelScheduledValues(t);
-      audio.master.gain.linearRampToValueAtTime(v, t + 0.20);
+      audio.master.gain.linearRampToValueAtTime(vol, t + 0.25);
     }
+
+    function applyScrollVolume(){
+      if (!audio || !isOn) return;
+
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+      const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
+
+      const p = Math.max(0, Math.min(1, scrollTop / scrollMax)); // 0 top -> 1 bottom
+      const maxVol = 0.10;  // louder at top
+      const minVol = 0.02;  // quieter at bottom
+      const vol = (maxVol * (1 - p)) + (minVol * p);
+
+      setVol(vol);
+    }
+
+    window.addEventListener("scroll", applyScrollVolume, { passive: true });
+    window.addEventListener("resize", applyScrollVolume, { passive: true });
 
     async function ensureAudioOn(){
       if (!audio) audio = makeAudio();
@@ -640,9 +658,11 @@
 
       if (audio.ctx.state === "suspended") await audio.ctx.resume();
       isOn = true;
-      setVol(0.08);
+
       muteBtn.classList.add("on");
       muteBtn.textContent = "AUDIO ON";
+
+      applyScrollVolume(); // immediately set based on current scroll
     }
 
     async function ensureAudioOff(){
@@ -667,14 +687,9 @@
     const enterBtn = document.getElementById("enterBtn");
 
     enterBtn.addEventListener("click", async () => {
-      // Start audio on the same click (iPhone-safe)
       await ensureAudioOn();
-
-      // Hide gate
       gate.classList.add("gateHidden");
       setTimeout(() => gate.style.display = "none", 380);
-
-      // Optional: subtle jump to top after enter
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   </script>
