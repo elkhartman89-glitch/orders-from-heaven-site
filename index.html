@@ -38,7 +38,6 @@
       overflow-x:hidden;
     }
 
-    /* Haze + particles + scanlines */
     .fog{
       position:fixed; inset:0; pointer-events:none; z-index:-3;
       opacity:.45;
@@ -79,7 +78,6 @@
       );
     }
 
-    /* NAV */
     header{
       position:sticky; top:0; z-index:30;
       background: rgba(6,6,11,.84);
@@ -113,7 +111,6 @@
     a{ color: rgba(255,255,255,.82); text-decoration:none; }
     a:hover{ color:#fff; }
 
-    /* Layout */
     .wrap{
       max-width:1120px; margin:0 auto;
       padding: 18px 18px 100px;
@@ -127,7 +124,6 @@
       opacity:.75;
     }
 
-    /* Hero */
     .hero{ padding: 86px 0 70px; text-align:center; }
     .logo{
       width:min(260px, 66vw);
@@ -186,7 +182,6 @@
     }
     .btn.small{ padding: 11px 14px; border-radius: 14px; font-weight:700; font-size:12px; }
 
-    /* Sections */
     section.block{ padding: 84px 0; text-align:center; }
     .kicker{ text-transform:uppercase; letter-spacing:.22em; font-size:12px; color: rgba(255,255,255,.74); }
     .title{
@@ -250,7 +245,6 @@
     .originText p{ margin: 0 0 20px; }
     .originText p:last-child{ margin-bottom:0; }
 
-    /* SIGNAL email card */
     .signalBox{
       margin-top: 26px;
       width: min(740px, 100%);
@@ -276,7 +270,6 @@
       letter-spacing:.06em;
     }
 
-    /* Links */
     .linkgrid{ margin-top: 26px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
 
     footer{
@@ -292,7 +285,6 @@
       flex-wrap:wrap;
     }
 
-    /* Mute button */
     .mute{
       position: fixed;
       right: 14px;
@@ -314,7 +306,6 @@
       box-shadow: 0 0 22px rgba(255,206,120,.12);
     }
 
-    /* Gate */
     .gate{
       position: fixed;
       inset: 0;
@@ -427,7 +418,6 @@
   <div class="specks" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
 
-  <!-- GATE -->
   <div id="gate" class="gate" role="dialog" aria-modal="true" aria-label="Transmission Zone">
     <div class="gateInner">
       <div class="gateSmall">ORDERS FROM HEAVEN</div>
@@ -456,7 +446,6 @@
   </header>
 
   <main class="wrap">
-    <!-- HERO -->
     <section class="hero" id="top">
       <img class="logo" src="logo.PNG" alt="0RD3RS FR0M H3AVEN emblem">
       <h1>0RD3RS FR0M H3AVEN</h1>
@@ -472,7 +461,6 @@
 
     <div class="divider"></div>
 
-    <!-- WAR -->
     <section class="block" id="war">
       <div class="kicker">Current Transmission</div>
       <div class="title">WAR</div>
@@ -514,7 +502,6 @@
 
     <div class="divider"></div>
 
-    <!-- ORIGIN -->
     <section class="block" id="origin">
       <div class="kicker">THE ORIGIN</div>
       <div class="title" style="font-size:clamp(30px,3.4vw,44px);">ORDERS RECEIVED</div>
@@ -538,7 +525,6 @@
 
     <div class="divider"></div>
 
-    <!-- SIGNAL -->
     <section class="block" id="signal">
       <div class="kicker">THE SIGNAL</div>
       <div class="title" style="font-size:clamp(34px,4.2vw,54px);">JOIN THE TRANSMISSION</div>
@@ -550,7 +536,6 @@
       <div class="signalBox">
         <div class="signalMini">ACCESS: OPEN</div>
 
-        <!-- MailerLite Form Container -->
         <div class="ml-embedded" data-form="iq94TM"></div>
 
         <div class="signalHint">No spam. Only orders.</div>
@@ -559,7 +544,6 @@
 
     <div class="divider"></div>
 
-    <!-- LINKS -->
     <section class="block" id="links">
       <div class="kicker">OFFICIAL LINKS</div>
       <div class="title" style="font-size:clamp(30px,3.4vw,44px);">DIRECT ROUTING</div>
@@ -590,7 +574,7 @@
 
   <button id="muteBtn" class="mute" aria-label="Mute transmission audio">MUTE</button>
 
-  <!-- MailerLite Universal (Correct Account Init) -->
+  <!-- MailerLite Universal -->
   <script>
     (function(w,d,e,u,f,l,n){
       w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
@@ -603,7 +587,7 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    // ----------------- AUDIO: Divine radio waves (iPhone-safe) -----------------
+    // ----------------- AUDIO: Divine radio waves + frequency tones (iPhone-safe) -----------------
     let audio = null;
     let isOn = false;
 
@@ -648,7 +632,7 @@
       low.frequency.value = 1750;
 
       const airGain = ctx.createGain();
-      airGain.gain.value = 0.55;
+      airGain.gain.value = 0.52;
 
       noise.connect(band);
       band.connect(low);
@@ -666,7 +650,7 @@
 
       // 2) Celestial pad (soft chord + breathing)
       const padGain = ctx.createGain();
-      padGain.gain.value = 0.22;
+      padGain.gain.value = 0.20;
 
       const padLP = ctx.createBiquadFilter();
       padLP.type = "lowpass";
@@ -709,7 +693,7 @@
 
       // 3) Star chimes (random shimmering pings)
       const chimeBus = ctx.createGain();
-      chimeBus.gain.value = 0.22;
+      chimeBus.gain.value = 0.20;
 
       const chimeHP = ctx.createBiquadFilter();
       chimeHP.type = "highpass";
@@ -729,7 +713,7 @@
 
         const g = ctx.createGain();
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(rand(0.05, 0.12), t + 0.01);
+        g.gain.linearRampToValueAtTime(rand(0.05, 0.11), t + 0.01);
         g.gain.exponentialRampToValueAtTime(0.0001, t + rand(0.45, 1.15));
 
         o.frequency.exponentialRampToValueAtTime(base * rand(0.6, 0.82), t + rand(0.25, 0.9));
@@ -753,15 +737,103 @@
       trem.connect(tremGain);
       tremGain.connect(master.gain);
 
+      // 5) NEW: Radio frequency tones (carrier + periodic scanner sweeps + rare lock ping)
+      const rfBus = ctx.createGain();
+      rfBus.gain.value = 0.12; // subtle overall level
+      rfBus.connect(master);
+
+      // Warm “carrier” tone (felt more than heard)
+      const carrier = ctx.createOscillator();
+      carrier.type = "sine";
+      carrier.frequency.value = 96; // low, warm
+      const carrierGain = ctx.createGain();
+      carrierGain.gain.value = 0.03;
+
+      // Tiny wobble so it feels alive
+      const carrierWob = ctx.createOscillator();
+      carrierWob.type = "sine";
+      carrierWob.frequency.value = 0.12;
+      const carrierWobAmt = ctx.createGain();
+      carrierWobAmt.gain.value = 2.2; // Hz wobble
+      carrierWob.connect(carrierWobAmt);
+      carrierWobAmt.connect(carrier.frequency);
+
+      // Shape carrier so it doesn't get “boomy”
+      const carrierHP = ctx.createBiquadFilter();
+      carrierHP.type = "highpass";
+      carrierHP.frequency.value = 70;
+
+      carrier.connect(carrierGain);
+      carrierGain.connect(carrierHP);
+      carrierHP.connect(rfBus);
+
+      function playSweep(){
+        const now = ctx.currentTime;
+
+        const o = ctx.createOscillator();
+        o.type = "sine";
+
+        // Start low-mid, sweep upward, then vanish
+        const startF = rand(220, 420);
+        const endF   = rand(1200, 2200);
+
+        o.frequency.setValueAtTime(startF, now + 0.02);
+        o.frequency.exponentialRampToValueAtTime(endF, now + rand(0.9, 1.4));
+
+        // Bandpass it to feel “radio”
+        const bp = ctx.createBiquadFilter();
+        bp.type = "bandpass";
+        bp.frequency.value = rand(700, 1100);
+        bp.Q.value = rand(2.0, 5.0);
+
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(rand(0.018, 0.032), now + 0.10);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + rand(1.0, 1.6));
+
+        o.connect(bp);
+        bp.connect(g);
+        g.connect(rfBus);
+
+        o.start(now);
+        o.stop(now + 2.2);
+
+        // Rare “lock ping” after some sweeps
+        if (Math.random() < 0.18) {
+          const t = now + rand(1.1, 2.1);
+          const ping = ctx.createOscillator();
+          ping.type = "triangle";
+          ping.frequency.value = rand(740, 980);
+
+          const pg = ctx.createGain();
+          pg.gain.setValueAtTime(0.0001, t);
+          pg.gain.linearRampToValueAtTime(rand(0.025, 0.05), t + 0.01);
+          pg.gain.exponentialRampToValueAtTime(0.0001, t + rand(0.25, 0.55));
+
+          const php = ctx.createBiquadFilter();
+          php.type = "highpass";
+          php.frequency.value = 680;
+
+          ping.connect(pg);
+          pg.connect(php);
+          php.connect(rfBus);
+
+          ping.start(t);
+          ping.stop(t + 0.9);
+        }
+
+        // schedule next sweep
+        setTimeout(playSweep, rand(20000, 35000));
+      }
+
       // start everything
-      noise.start();
-      drift.start();
-
-      p1.start(); p2.start(); p3.start();
-      breath.start();
-
+      noise.start(); drift.start();
+      p1.start(); p2.start(); p3.start(); breath.start();
       trem.start();
+      carrier.start(); carrierWob.start();
       scheduleChime();
+      // start sweeps after a short settle
+      setTimeout(playSweep, rand(8000, 12000));
 
       return { ctx, master };
     }
@@ -782,7 +854,7 @@
       const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
       const p = Math.max(0, Math.min(1, scrollTop / scrollMax));
 
-      const maxVol = 0.10;
+      const maxVol = 0.11;
       const minVol = 0.02;
       const vol = (maxVol * (1 - p)) + (minVol * p);
       setVol(vol);
@@ -821,7 +893,6 @@
       else await ensureAudioOn();
     });
 
-    // Gate
     const gate = document.getElementById("gate");
     const enterBtn = document.getElementById("enterBtn");
     enterBtn.addEventListener("click", async () => {
