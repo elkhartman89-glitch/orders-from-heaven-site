@@ -14,7 +14,7 @@
     :root{
       --bg:#06060b;
       --ink:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.68);
+      --muted:rgba(255,255,255,.66);
       --stroke:rgba(255,255,255,.12);
       --panel:rgba(255,255,255,.06);
       --gold:rgba(255,206,120,.98);
@@ -51,7 +51,7 @@
     }
     @keyframes fogDrift{
       from{ background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
-      to  { background-position: 2% 1%, -2% 1%, 2% -1%, 0% -2%; }
+      to{ background-position: 2% 1%, -2% 1%, 2% -1%, 0% -2%; }
     }
 
     .specks{
@@ -411,11 +411,6 @@
       pointer-events:none;
     }
 
-    /* MailerLite embed polish (best effort) */
-    .ml-embedded{
-      text-align:left;
-    }
-
     @media (max-width: 920px){
       .hero{ padding: 76px 0 62px; }
       section.block{ padding: 74px 0; }
@@ -546,16 +541,16 @@
     <!-- SIGNAL -->
     <section class="block" id="signal">
       <div class="kicker">THE SIGNAL</div>
-      <div class="title" style="font-size:clamp(34px,4.2vw,54px);">ACCESS: OPEN</div>
+      <div class="title" style="font-size:clamp(34px,4.2vw,54px);">JOIN THE TRANSMISSION</div>
       <div class="desc">
         Private transmissions. Early releases. Unreleased material.
         Enter your email to receive the first drop before public channels.
       </div>
 
       <div class="signalBox">
-        <div class="signalMini">JOIN THE TRANSMISSION</div>
+        <div class="signalMini">ACCESS: OPEN</div>
 
-        <!-- MailerLite Embed -->
+        <!-- MailerLite Form Container -->
         <div class="ml-embedded" data-form="iq94TM"></div>
 
         <div class="signalHint">No spam. Only orders.</div>
@@ -595,13 +590,20 @@
 
   <button id="muteBtn" class="mute" aria-label="Mute transmission audio">MUTE</button>
 
-  <!-- MailerLite Universal Script -->
-  <script async src="https://static.mailerlite.com/js/universal.js"></script>
+  <!-- MailerLite Universal (Correct Account Init) -->
+  <script>
+    (function(w,d,e,u,f,l,n){
+      w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
+      l=d.createElement(e); l.async=1; l.src=u;
+      n=d.getElementsByTagName(e)[0]; n.parentNode.insertBefore(l,n);
+    })(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2113620');
+  </script>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    // ---------- AUDIO (starts on gate click, fades with scroll) ----------
+    // ----------------- AUDIO: Divine radio waves (iPhone-safe) -----------------
     let audio = null;
     let isOn = false;
 
@@ -610,10 +612,14 @@
       if (!AudioCtx) return null;
 
       const ctx = new AudioCtx();
+
       const master = ctx.createGain();
       master.gain.value = 0.0;
       master.connect(ctx.destination);
 
+      const rand = (a,b)=>a+Math.random()*(b-a);
+
+      // 1) Transmission air (filtered noise + drift)
       function noiseBuffer(){
         const seconds = 2.0;
         const len = Math.floor(ctx.sampleRate * seconds);
@@ -621,8 +627,8 @@
         const data = buf.getChannelData(0);
         let last = 0;
         for (let i=0; i<len; i++){
-          const white = (Math.random() * 2 - 1);
-          last = last * 0.985 + white * 0.015;
+          const white = (Math.random()*2-1);
+          last = last*0.985 + white*0.015;
           data[i] = last;
         }
         return buf;
@@ -634,29 +640,128 @@
 
       const band = ctx.createBiquadFilter();
       band.type = "bandpass";
-      band.frequency.value = 620;
+      band.frequency.value = 540;
       band.Q.value = 0.95;
 
       const low = ctx.createBiquadFilter();
       low.type = "lowpass";
-      low.frequency.value = 1650;
+      low.frequency.value = 1750;
 
+      const airGain = ctx.createGain();
+      airGain.gain.value = 0.55;
+
+      noise.connect(band);
+      band.connect(low);
+      low.connect(airGain);
+      airGain.connect(master);
+
+      const drift = ctx.createOscillator();
+      drift.type = "sine";
+      drift.frequency.value = 0.035;
+
+      const driftAmt = ctx.createGain();
+      driftAmt.gain.value = 75;
+      drift.connect(driftAmt);
+      driftAmt.connect(band.frequency);
+
+      // 2) Celestial pad (soft chord + breathing)
+      const padGain = ctx.createGain();
+      padGain.gain.value = 0.22;
+
+      const padLP = ctx.createBiquadFilter();
+      padLP.type = "lowpass";
+      padLP.frequency.value = 920;
+      padLP.Q.value = 0.6;
+
+      const padShelf = ctx.createBiquadFilter();
+      padShelf.type = "highshelf";
+      padShelf.frequency.value = 2400;
+      padShelf.gain.value = 3;
+
+      padGain.connect(padLP);
+      padLP.connect(padShelf);
+      padShelf.connect(master);
+
+      function padOsc(freq, detune){
+        const o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = freq;
+        o.detune.value = detune;
+        return o;
+      }
+
+      const p1 = padOsc(110.00, -6);  // A2
+      const p2 = padOsc(164.81,  5);  // E3
+      const p3 = padOsc(220.00,  0);  // A3
+
+      p1.connect(padGain);
+      p2.connect(padGain);
+      p3.connect(padGain);
+
+      const breath = ctx.createOscillator();
+      breath.type = "sine";
+      breath.frequency.value = 0.06;
+
+      const breathAmt = ctx.createGain();
+      breathAmt.gain.value = 0.08;
+      breath.connect(breathAmt);
+      breathAmt.connect(padGain.gain);
+
+      // 3) Star chimes (random shimmering pings)
+      const chimeBus = ctx.createGain();
+      chimeBus.gain.value = 0.22;
+
+      const chimeHP = ctx.createBiquadFilter();
+      chimeHP.type = "highpass";
+      chimeHP.frequency.value = 950;
+
+      chimeBus.connect(chimeHP);
+      chimeHP.connect(master);
+
+      function scheduleChime(){
+        const t = ctx.currentTime + rand(0.25, 1.6);
+        const notes = [880, 990, 1175, 1320, 1760, 1980];
+        const base = notes[Math.floor(rand(0, notes.length))];
+
+        const o = ctx.createOscillator();
+        o.type = "triangle";
+        o.frequency.setValueAtTime(base * rand(0.985, 1.02), t);
+
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(rand(0.05, 0.12), t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + rand(0.45, 1.15));
+
+        o.frequency.exponentialRampToValueAtTime(base * rand(0.6, 0.82), t + rand(0.25, 0.9));
+
+        o.connect(g);
+        g.connect(chimeBus);
+
+        o.start(t);
+        o.stop(t + 2.0);
+
+        setTimeout(scheduleChime, rand(520, 1600));
+      }
+
+      // 4) Gentle scan pulse (micro tremolo)
       const trem = ctx.createOscillator();
       trem.type = "sine";
       trem.frequency.value = 0.08;
 
       const tremGain = ctx.createGain();
       tremGain.gain.value = 0.018;
-
-      noise.connect(band);
-      band.connect(low);
-      low.connect(master);
-
       trem.connect(tremGain);
       tremGain.connect(master.gain);
 
+      // start everything
       noise.start();
+      drift.start();
+
+      p1.start(); p2.start(); p3.start();
+      breath.start();
+
       trem.start();
+      scheduleChime();
 
       return { ctx, master };
     }
@@ -675,12 +780,11 @@
       const doc = document.documentElement;
       const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
       const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
+      const p = Math.max(0, Math.min(1, scrollTop / scrollMax));
 
-      const p = Math.max(0, Math.min(1, scrollTop / scrollMax)); // 0 top -> 1 bottom
       const maxVol = 0.10;
       const minVol = 0.02;
       const vol = (maxVol * (1 - p)) + (minVol * p);
-
       setVol(vol);
     }
 
@@ -717,10 +821,9 @@
       else await ensureAudioOn();
     });
 
-    // ---------- GATE ----------
+    // Gate
     const gate = document.getElementById("gate");
     const enterBtn = document.getElementById("enterBtn");
-
     enterBtn.addEventListener("click", async () => {
       await ensureAudioOn();
       gate.classList.add("gateHidden");
