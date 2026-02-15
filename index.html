@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>0RD3RS FR0M H3AVEN</title>
-  <meta name="description" content="Ethereal signal. Divine authority. Orders are received." />
+  <meta name="description" content="A portal between realms. Cut through the noise. Find the signal." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,15 +38,17 @@
       overflow-x:hidden;
     }
 
+    /* ===== Background effects (fog + specks + scanlines) ===== */
     .fog{
       position:fixed; inset:0; pointer-events:none; z-index:-3;
-      opacity:.45;
+      opacity:.46;
       background:
         radial-gradient(900px 520px at 50% -10%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(820px 520px at 18% 22%, rgba(255,206,120,.11), transparent 62%),
-        radial-gradient(900px 600px at 84% 26%, rgba(255,168,64,.08), transparent 64%),
+        radial-gradient(820px 520px at 18% 22%, rgba(255,206,120,.12), transparent 62%),
+        radial-gradient(900px 600px at 84% 26%, rgba(255,168,64,.09), transparent 64%),
         radial-gradient(1100px 780px at 50% 112%, rgba(255,255,255,.04), transparent 62%);
       animation:fogDrift 28s ease-in-out infinite alternate;
+      filter: blur(.2px);
     }
     @keyframes fogDrift{
       from{ background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
@@ -57,7 +59,7 @@
       position:fixed; inset:0; pointer-events:none; z-index:-2;
       background-image: radial-gradient(rgba(255,206,120,.22) 1px, transparent 1.6px);
       background-size: 38px 38px;
-      opacity:.14;
+      opacity:.15;
       filter: blur(.15px);
       animation: speckDrift 18s linear infinite;
     }
@@ -76,6 +78,14 @@
         rgba(0,0,0,0) 3px,
         rgba(0,0,0,0) 7px
       );
+      mix-blend-mode: overlay;
+    }
+
+    /* soft vignette */
+    .vignette{
+      position:fixed; inset:-1px; pointer-events:none; z-index:-1;
+      background: radial-gradient(1100px 760px at 50% 35%, transparent 45%, rgba(0,0,0,.55) 92%);
+      opacity:.55;
     }
 
     header{
@@ -146,7 +156,7 @@
       color: var(--muted);
       font-size: 15px;
       line-height: 1.8;
-      max-width: 76ch;
+      max-width: 82ch;
       margin-left:auto; margin-right:auto;
     }
 
@@ -197,7 +207,7 @@
       color: var(--muted);
       font-size: 15px;
       line-height: 1.8;
-      max-width: 76ch;
+      max-width: 78ch;
       margin-left:auto; margin-right:auto;
     }
 
@@ -306,6 +316,7 @@
       box-shadow: 0 0 22px rgba(255,206,120,.12);
     }
 
+    /* ===== Entry gate ===== */
     .gate{
       position: fixed;
       inset: 0;
@@ -416,28 +427,30 @@
 <body>
   <div class="fog" aria-hidden="true"></div>
   <div class="specks" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
 
+  <!-- Gate (required for iPhone audio) -->
   <div id="gate" class="gate" role="dialog" aria-modal="true" aria-label="Transmission Zone">
     <div class="gateInner">
-      <div class="gateSmall">ORDERS FROM HEAVEN</div>
+      <div class="gateSmall">0RD3RS FR0M H3AVEN</div>
       <h2 class="gateTitle">TRANSMISSION ZONE</h2>
-      <div class="gateLine">ORDERS ARE NOT REQUESTED.<br>THEY ARE RECEIVED.</div>
+      <div class="gateLine">CUT THROUGH THE NOISE.<br>FIND THE SIGNAL.</div>
 
       <div id="enterBtn" class="ringBtn">
-        <div class="ringText">ACCEPT<br>ORDERS</div>
+        <div class="ringText">ENTER<br>PORTAL</div>
       </div>
 
-      <div class="gateHint">PROCEED WITH INTENT</div>
-      <div class="gateHint" style="opacity:.7; letter-spacing:.12em;">(Tap to enter + start signal audio)</div>
+      <div class="gateHint">AUDIO ARMS ON TAP</div>
+      <div class="gateHint" style="opacity:.7; letter-spacing:.12em;">(Tap to enter + start signal)</div>
     </div>
   </div>
 
   <header>
     <div class="nav">
-      <div class="brand"><span class="led"></span> TRANSMISSIONS RECEIVED</div>
+      <div class="brand"><span class="led"></span> SIGNAL ONLINE</div>
       <nav class="navlinks">
-        <a href="#war">WAR</a>
+        <a href="#featured">FEATURED</a>
         <a href="#origin">ORIGIN</a>
         <a href="#signal">SIGNAL</a>
         <a href="#links">LINKS</a>
@@ -449,11 +462,14 @@
     <section class="hero" id="top">
       <img class="logo" src="logo.PNG" alt="0RD3RS FR0M H3AVEN emblem">
       <h1>0RD3RS FR0M H3AVEN</h1>
-      <div class="tagline">“What are your 0RD3RS?”</div>
-      <div class="sub">Ethereal signal. Divine authority. Black and gold in the void between realms.</div>
+      <div class="tagline">A sonic portal between noise and clarity.</div>
+      <div class="sub">
+        God is always transmitting. The world is loud. This space exists to help you tune in,
+        feel something bigger, and move with purpose.
+      </div>
 
       <div class="ctaRow">
-        <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
+        <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">SPOTIFY</a>
         <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE MUSIC</a>
         <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
       </div>
@@ -461,18 +477,21 @@
 
     <div class="divider"></div>
 
-    <section class="block" id="war">
+    <section class="block" id="featured">
       <div class="kicker">Current Transmission</div>
       <div class="title">WAR</div>
-      <div class="desc">A confrontation between distortion and clarity. A campaign against internal noise.</div>
+      <div class="desc">
+        Spiritual warfare isn’t rage. It’s resolve. Standing firm while the signal cuts through the static.
+      </div>
 
       <div class="ctaRow">
-        <a class="btn primary" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM WAR</a>
+        <a class="btn primary" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM</a>
         <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE</a>
         <a class="btn" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">AMAZON</a>
         <a class="btn" href="https://www.youtube.com/watch?v=VsV2ROMCAsQ" target="_blank" rel="noopener">WATCH</a>
       </div>
 
+      <!-- If you don't have war.jpg, remove this card or add the image file -->
       <div class="card">
         <img src="war.jpg" alt="WAR cover art">
       </div>
@@ -494,7 +513,7 @@
             src="https://www.youtube.com/embed/VsV2ROMCAsQ?rel=0&modestbranding=1"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             loading="lazy"
-            title="YouTube: 0RD3RS FR0M H3AVEN"
+            title="YouTube: WAR"
           ></iframe>
         </div>
       </div>
@@ -504,18 +523,20 @@
 
     <section class="block" id="origin">
       <div class="kicker">THE ORIGIN</div>
-      <div class="title" style="font-size:clamp(30px,3.4vw,44px);">ORDERS RECEIVED</div>
-      <div class="desc">Faith-forward EDM. Rebellion against distortion. Alignment over noise.</div>
+      <div class="title" style="font-size:clamp(30px,3.4vw,44px);">THE PORTAL</div>
+      <div class="desc">
+        Not doctrine. Not pressure. An atmosphere. A frequency. An invitation to tune in.
+      </div>
 
       <div class="originText">
         <p>
-          0RD3RS FR0M H3AVEN is the electronic project of <strong>Tommy Sailor</strong>,
+          0RD3RS FR0M H3AVEN is the electronic project of <strong>Tommy Sailor</strong> (S-A-I-L-O-R),
           a Navy veteran from South Bend, Indiana, husband, father of four boys, worship leader,
           and sales account manager.
         </p>
         <p>
-          Each release begins in prayer. The direction is not self-generated. It is received.
-          Neon meets surrender. Sound becomes instruction.
+          The concept is simple: the world is full of white noise. God is always transmitting.
+          The question isn’t whether the signal exists. The question is whether we’ll tune in.
         </p>
         <p style="opacity:.78; margin-top:22px;">
           “Be transformed by the renewing of your mind.” — Romans 12:2
@@ -529,16 +550,16 @@
       <div class="kicker">THE SIGNAL</div>
       <div class="title" style="font-size:clamp(34px,4.2vw,54px);">JOIN THE TRANSMISSION</div>
       <div class="desc">
-        Private transmissions. Early releases. Unreleased material.
-        Enter your email to receive the first drop before public channels.
+        Early releases. Private updates. Transmission drops. Enter your email to stay tuned.
       </div>
 
       <div class="signalBox">
         <div class="signalMini">ACCESS: OPEN</div>
 
+        <!-- MailerLite embed form -->
         <div class="ml-embedded" data-form="iq94TM"></div>
 
-        <div class="signalHint">No spam. Only orders.</div>
+        <div class="signalHint">No spam. Only signal.</div>
       </div>
     </section>
 
@@ -564,7 +585,7 @@
         <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
         <div class="navlinks">
           <a href="#top">TOP</a>
-          <a href="#war">WAR</a>
+          <a href="#featured">FEATURED</a>
           <a href="#origin">ORIGIN</a>
           <a href="#signal">SIGNAL</a>
         </div>
@@ -583,604 +604,14 @@
     })(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
     ml('account', '2113620');
   </script>
+  <!-- End MailerLite Universal -->
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
 
-    // ----------------- AUDIO: Divine radio waves + frequency tones (iPhone-safe) -----------------
-    let audio = null;
-    let isOn = false;
+    // ================= AUDIO: Divine ambience + 70s shortwave "spoken fragments" =================
+    // iPhone-safe: starts only after the gate tap.
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>0RD3RS FR0M H3AVEN</title>
-  <meta name="description" content="Ethereal signal. Divine authority. Orders are received." />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#06060b;
-      --ink:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.66);
-      --stroke:rgba(255,255,255,.12);
-      --panel:rgba(255,255,255,.06);
-      --gold:rgba(255,206,120,.98);
-      --gold2:rgba(255,168,64,.92);
-      --shadow: 0 24px 90px rgba(0,0,0,.70);
-      --r:22px;
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family:"Space Grotesk",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--ink);
-      background:
-        radial-gradient(1100px 760px at 50% -12%, rgba(255,255,255,.05), transparent 58%),
-        radial-gradient(980px 680px at 18% 14%, rgba(255,206,120,.14), transparent 62%),
-        radial-gradient(980px 680px at 86% 18%, rgba(255,168,64,.10), transparent 64%),
-        linear-gradient(180deg, rgba(255,255,255,.03), transparent 22%),
-        var(--bg);
-      overflow-x:hidden;
-    }
-
-    .fog{
-      position:fixed; inset:0; pointer-events:none; z-index:-3;
-      opacity:.45;
-      background:
-        radial-gradient(900px 520px at 50% -10%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(820px 520px at 18% 22%, rgba(255,206,120,.11), transparent 62%),
-        radial-gradient(900px 600px at 84% 26%, rgba(255,168,64,.08), transparent 64%),
-        radial-gradient(1100px 780px at 50% 112%, rgba(255,255,255,.04), transparent 62%);
-      animation:fogDrift 28s ease-in-out infinite alternate;
-    }
-    @keyframes fogDrift{
-      from{ background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
-      to{ background-position: 2% 1%, -2% 1%, 2% -1%, 0% -2%; }
-    }
-
-    .specks{
-      position:fixed; inset:0; pointer-events:none; z-index:-2;
-      background-image: radial-gradient(rgba(255,206,120,.22) 1px, transparent 1.6px);
-      background-size: 38px 38px;
-      opacity:.14;
-      filter: blur(.15px);
-      animation: speckDrift 18s linear infinite;
-    }
-    @keyframes speckDrift{
-      from{ transform: translate3d(0,0,0); }
-      to{ transform: translate3d(-38px, 18px, 0); }
-    }
-
-    .scanlines{
-      position:fixed; inset:0; pointer-events:none; z-index:4;
-      opacity:.045;
-      background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.10) 0px,
-        rgba(255,255,255,.10) 1px,
-        rgba(0,0,0,0) 3px,
-        rgba(0,0,0,0) 7px
-      );
-    }
-
-    header{
-      position:sticky; top:0; z-index:30;
-      background: rgba(6,6,11,.84);
-      border-bottom:1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(10px);
-    }
-    .nav{
-      max-width:1120px; margin:0 auto;
-      padding: 14px 18px;
-      display:flex; align-items:center; justify-content:space-between; gap:14px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-transform:uppercase; letter-spacing:.16em;
-      font-size:12px; color:rgba(255,255,255,.78);
-      white-space:nowrap;
-    }
-    .led{
-      width:10px; height:10px; border-radius:999px;
-      background: var(--gold);
-      box-shadow: 0 0 0 0 rgba(255,206,120,.34);
-      animation: ping 1.6s infinite;
-      flex:0 0 auto;
-    }
-    @keyframes ping{
-      0%{ box-shadow:0 0 0 0 rgba(255,206,120,.34); }
-      70%{ box-shadow:0 0 0 16px rgba(255,206,120,0); }
-      100%{ box-shadow:0 0 0 0 rgba(255,206,120,0); }
-    }
-    nav{ display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-end; }
-    a{ color: rgba(255,255,255,.82); text-decoration:none; }
-    a:hover{ color:#fff; }
-
-    .wrap{
-      max-width:1120px; margin:0 auto;
-      padding: 18px 18px 100px;
-      position:relative; z-index:6;
-    }
-    .divider{
-      width:min(860px,92%);
-      margin:0 auto;
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-      opacity:.75;
-    }
-
-    .hero{ padding: 86px 0 70px; text-align:center; }
-    .logo{
-      width:min(260px, 66vw);
-      height:auto;
-      display:block;
-      margin: 0 auto 22px;
-      filter: drop-shadow(0 0 18px rgba(255,206,120,.16)) drop-shadow(0 0 40px rgba(255,168,64,.12));
-    }
-    h1{
-      margin:0;
-      font-size: clamp(44px, 6.2vw, 92px);
-      letter-spacing:.05em;
-      text-transform:uppercase;
-      line-height:1.03;
-      text-shadow: 1px 0 rgba(255,206,120,.18), -1px 0 rgba(255,168,64,.12);
-    }
-    .tagline{ margin-top: 14px; font-size:18px; color:rgba(255,255,255,.88); letter-spacing:.06em; }
-    .sub{
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-      max-width: 76ch;
-      margin-left:auto; margin-right:auto;
-    }
-
-    .ctaRow{
-      margin-top: 26px;
-      display:flex; gap:12px; flex-wrap:wrap;
-      justify-content:center; align-items:center;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 13px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
-      font-weight: 750;
-      transition: transform .08s ease, background .12s ease, border-color .12s ease;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      text-transform:uppercase;
-      letter-spacing:.10em;
-      font-size: 13px;
-    }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
-    .btn:active{ transform: translateY(0px) scale(.99); }
-    .btn.primary{
-      border-color: rgba(255,206,120,.42);
-      background: linear-gradient(180deg, rgba(255,206,120,.14), rgba(255,206,120,.06));
-    }
-    .btn.secondary{
-      border-color: rgba(255,168,64,.34);
-      background: linear-gradient(180deg, rgba(255,168,64,.12), rgba(255,168,64,.05));
-    }
-    .btn.small{ padding: 11px 14px; border-radius: 14px; font-weight:700; font-size:12px; }
-
-    section.block{ padding: 84px 0; text-align:center; }
-    .kicker{ text-transform:uppercase; letter-spacing:.22em; font-size:12px; color: rgba(255,255,255,.74); }
-    .title{
-      margin: 14px 0 0;
-      font-size: clamp(40px, 5vw, 72px);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      line-height: 1.05;
-      text-shadow: 0 0 26px rgba(255,206,120,.10);
-    }
-    .desc{
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-      max-width: 76ch;
-      margin-left:auto; margin-right:auto;
-    }
-
-    .card{
-      width: min(980px, 100%);
-      margin: 28px auto 0;
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      box-shadow: var(--shadow);
-    }
-    .card img{ display:block; width:100%; height:auto; }
-
-    .embeds{
-      margin-top: 16px;
-      width: min(980px, 100%);
-      margin-left:auto; margin-right:auto;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    .embedBox{
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 18px;
-      overflow:hidden;
-      background: rgba(0,0,0,.20);
-      box-shadow: 0 16px 60px rgba(0,0,0,.45);
-    }
-    .embedBox iframe{ display:block; width:100%; border:0; }
-
-    .originText{
-      margin-top: 28px;
-      max-width: 860px;
-      margin-left:auto; margin-right:auto;
-      color: rgba(255,255,255,.86);
-      font-size: 18px;
-      line-height: 1.9;
-      text-align:left;
-      padding: 22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      border-radius: var(--r);
-    }
-    .originText p{ margin: 0 0 20px; }
-    .originText p:last-child{ margin-bottom:0; }
-
-    .signalBox{
-      margin-top: 26px;
-      width: min(740px, 100%);
-      margin-left:auto; margin-right:auto;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      padding: 22px;
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 18px 70px rgba(0,0,0,.50);
-      text-align:center;
-    }
-    .signalMini{
-      text-transform:uppercase;
-      letter-spacing:.20em;
-      font-size:12px;
-      color: rgba(255,255,255,.72);
-      margin-bottom: 14px;
-    }
-    .signalHint{
-      margin-top: 14px;
-      font-size:12px;
-      opacity:.65;
-      letter-spacing:.06em;
-    }
-
-    .linkgrid{ margin-top: 26px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-
-    footer{
-      margin-top: 56px;
-      padding-top: 26px;
-      border-top: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.58);
-      font-size: 13px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 12px;
-      flex-wrap:wrap;
-    }
-
-    .mute{
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 50;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,206,120,.28);
-      background: rgba(0,0,0,.30);
-      color: rgba(255,255,255,.78);
-      font: 700 12px/1 "Space Grotesk",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .mute.on{
-      border-color: rgba(255,206,120,.50);
-      color: rgba(255,255,255,.92);
-      box-shadow: 0 0 22px rgba(255,206,120,.12);
-    }
-
-    .gate{
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
-      background:
-        radial-gradient(900px 600px at 50% -10%, rgba(255,255,255,.06), transparent 60%),
-        radial-gradient(800px 560px at 50% 60%, rgba(255,206,120,.12), transparent 62%),
-        linear-gradient(180deg, rgba(0,0,0,.88), rgba(0,0,0,.94));
-      backdrop-filter: blur(10px);
-      transition: opacity .35s ease;
-    }
-    .gateInner{
-      width: min(860px, 100%);
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 30px 120px rgba(0,0,0,.72);
-      padding: 34px 22px;
-      text-align:center;
-    }
-    .gateSmall{
-      text-transform:uppercase;
-      letter-spacing:.28em;
-      font-size:12px;
-      color: rgba(255,255,255,.72);
-      margin-bottom: 10px;
-    }
-    .gateTitle{
-      margin:0;
-      font-size: clamp(44px, 7vw, 84px);
-      letter-spacing:.10em;
-      text-transform: uppercase;
-      line-height: 1.02;
-      text-shadow: 0 0 30px rgba(255,206,120,.10);
-    }
-    .gateLine{
-      margin-top: 14px;
-      color: rgba(255,255,255,.86);
-      letter-spacing:.08em;
-      text-transform: uppercase;
-      font-size: 14px;
-      line-height:1.6;
-    }
-    .ringBtn{
-      margin: 26px auto 10px;
-      width: 170px; height: 170px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,206,120,.30);
-      background: radial-gradient(circle at 50% 40%, rgba(255,206,120,.12), rgba(0,0,0,.22) 62%);
-      display:flex; align-items:center; justify-content:center;
-      cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
-      position:relative;
-      transition: transform .10s ease;
-      user-select:none;
-    }
-    .ringBtn:active{ transform: scale(.985); }
-    .ringBtn::before{
-      content:"";
-      position:absolute; inset:-10px;
-      border-radius:999px;
-      border: 1px solid rgba(255,206,120,.18);
-      opacity:.9;
-    }
-    .ringBtn::after{
-      content:"";
-      position:absolute; inset:-18px;
-      border-radius:999px;
-      border: 1px solid rgba(255,206,120,.10);
-      opacity:.75;
-    }
-    .ringText{
-      text-transform: uppercase;
-      letter-spacing:.22em;
-      font-size: 12px;
-      font-weight: 800;
-      color: rgba(255,255,255,.88);
-      line-height: 1.4;
-      text-align:center;
-    }
-    .gateHint{
-      margin-top: 12px;
-      color: rgba(255,255,255,.62);
-      letter-spacing:.16em;
-      text-transform: uppercase;
-      font-size: 11px;
-    }
-    .gateHidden{
-      opacity:0;
-      pointer-events:none;
-    }
-
-    @media (max-width: 920px){
-      .hero{ padding: 76px 0 62px; }
-      section.block{ padding: 74px 0; }
-      .originText{ font-size: 17px; }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .fog,.specks{ animation:none !important; }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="fog" aria-hidden="true"></div>
-  <div class="specks" aria-hidden="true"></div>
-  <div class="scanlines" aria-hidden="true"></div>
-
-  <div id="gate" class="gate" role="dialog" aria-modal="true" aria-label="Transmission Zone">
-    <div class="gateInner">
-      <div class="gateSmall">ORDERS FROM HEAVEN</div>
-      <h2 class="gateTitle">TRANSMISSION ZONE</h2>
-      <div class="gateLine">ORDERS ARE NOT REQUESTED.<br>THEY ARE RECEIVED.</div>
-
-      <div id="enterBtn" class="ringBtn">
-        <div class="ringText">ACCEPT<br>ORDERS</div>
-      </div>
-
-      <div class="gateHint">PROCEED WITH INTENT</div>
-      <div class="gateHint" style="opacity:.7; letter-spacing:.12em;">(Tap to enter + start signal audio)</div>
-    </div>
-  </div>
-
-  <header>
-    <div class="nav">
-      <div class="brand"><span class="led"></span> TRANSMISSIONS RECEIVED</div>
-      <nav class="navlinks">
-        <a href="#war">WAR</a>
-        <a href="#origin">ORIGIN</a>
-        <a href="#signal">SIGNAL</a>
-        <a href="#links">LINKS</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <section class="hero" id="top">
-      <img class="logo" src="logo.PNG" alt="0RD3RS FR0M H3AVEN emblem">
-      <h1>0RD3RS FR0M H3AVEN</h1>
-      <div class="tagline">“What are your 0RD3RS?”</div>
-      <div class="sub">Ethereal signal. Divine authority. Black and gold in the void between realms.</div>
-
-      <div class="ctaRow">
-        <a class="btn primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">STREAM ON SPOTIFY</a>
-        <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE MUSIC</a>
-        <a class="btn" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YOUTUBE</a>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="block" id="war">
-      <div class="kicker">Current Transmission</div>
-      <div class="title">WAR</div>
-      <div class="desc">A confrontation between distortion and clarity. A campaign against internal noise.</div>
-
-      <div class="ctaRow">
-        <a class="btn primary" href="https://open.spotify.com/album/73z8Kn0Rq5AR3fTnequjAO?si=JxnACyzGRg228a51ESJdXg" target="_blank" rel="noopener">STREAM WAR</a>
-        <a class="btn secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">APPLE</a>
-        <a class="btn" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">AMAZON</a>
-        <a class="btn" href="https://www.youtube.com/watch?v=VsV2ROMCAsQ" target="_blank" rel="noopener">WATCH</a>
-      </div>
-
-      <div class="card">
-        <img src="war.jpg" alt="WAR cover art">
-      </div>
-
-      <div class="embeds">
-        <div class="embedBox">
-          <iframe
-            style="height:152px"
-            src="https://open.spotify.com/embed/album/73z8Kn0Rq5AR3fTnequjAO?utm_source=generator"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            title="Spotify: WAR"
-          ></iframe>
-        </div>
-
-        <div class="embedBox">
-          <iframe
-            style="height:360px"
-            src="https://www.youtube.com/embed/VsV2ROMCAsQ?rel=0&modestbranding=1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            loading="lazy"
-            title="YouTube: 0RD3RS FR0M H3AVEN"
-          ></iframe>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="block" id="origin">
-      <div class="kicker">THE ORIGIN</div>
-      <div class="title" style="font-size:clamp(30px,3.4vw,44px);">ORDERS RECEIVED</div>
-      <div class="desc">Faith-forward EDM. Rebellion against distortion. Alignment over noise.</div>
-
-      <div class="originText">
-        <p>
-          0RD3RS FR0M H3AVEN is the electronic project of <strong>Tommy Sailor</strong>,
-          a Navy veteran from South Bend, Indiana, husband, father of four boys, worship leader,
-          and sales account manager.
-        </p>
-        <p>
-          Each release begins in prayer. The direction is not self-generated. It is received.
-          Neon meets surrender. Sound becomes instruction.
-        </p>
-        <p style="opacity:.78; margin-top:22px;">
-          “Be transformed by the renewing of your mind.” — Romans 12:2
-        </p>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="block" id="signal">
-      <div class="kicker">THE SIGNAL</div>
-      <div class="title" style="font-size:clamp(34px,4.2vw,54px);">JOIN THE TRANSMISSION</div>
-      <div class="desc">
-        Private transmissions. Early releases. Unreleased material.
-        Enter your email to receive the first drop before public channels.
-      </div>
-
-      <div class="signalBox">
-        <div class="signalMini">ACCESS: OPEN</div>
-
-        <div class="ml-embedded" data-form="iq94TM"></div>
-
-        <div class="signalHint">No spam. Only orders.</div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="block" id="links">
-      <div class="kicker">OFFICIAL LINKS</div>
-      <div class="title" style="font-size:clamp(30px,3.4vw,44px);">DIRECT ROUTING</div>
-      <div class="desc">One tap to the channels.</div>
-
-      <div class="linkgrid">
-        <a class="btn small primary" href="https://open.spotify.com/artist/6TP7KV4QKESUuKzqLFsiud?si=VcwwjJlyRXCOcYwMpvcUEw" target="_blank" rel="noopener">Spotify</a>
-        <a class="btn small secondary" href="https://music.apple.com/us/artist/0rd3rs-fr0m-h3aven/1864437285" target="_blank" rel="noopener">Apple Music</a>
-        <a class="btn small" href="https://youtube.com/@0rd3rsfr0mh3aven?si=vd-ekeK4029Mr8zo" target="_blank" rel="noopener">YouTube</a>
-        <a class="btn small" href="https://music.amazon.com/artists/B0GC3DQ4F8?ref=dm_sh_5EV8fqTUm3IwBou2PjgGMnxKP" target="_blank" rel="noopener">Amazon</a>
-        <a class="btn small" href="https://www.instagram.com/0rd3rsfr0mh3aven?igsh=MXd5Z2hrbjZhYWNzNg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn small" href="https://www.facebook.com/share/1DYPzZ95mp/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
-        <a class="btn small" href="https://www.tiktok.com/@0fh0fficial?_r=1&_t=ZP-93tG0NyoBqA" target="_blank" rel="noopener">TikTok</a>
-        <a class="btn small" href="https://x.com/0fhofficial?s=21" target="_blank" rel="noopener">X</a>
-      </div>
-
-      <footer>
-        <div>© <span id="y"></span> 0RD3RS FR0M H3AVEN</div>
-        <div class="navlinks">
-          <a href="#top">TOP</a>
-          <a href="#war">WAR</a>
-          <a href="#origin">ORIGIN</a>
-          <a href="#signal">SIGNAL</a>
-        </div>
-      </footer>
-    </section>
-  </main>
-
-  <button id="muteBtn" class="mute" aria-label="Mute transmission audio">MUTE</button>
-
-  <!-- MailerLite Universal -->
-  <script>
-    (function(w,d,e,u,f,l,n){
-      w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);};
-      l=d.createElement(e); l.async=1; l.src=u;
-      n=d.getElementsByTagName(e)[0]; n.parentNode.insertBefore(l,n);
-    })(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-    ml('account', '2113620');
-  </script>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-
-    // ----------------- AUDIO: Divine radio waves + frequency tones (iPhone-safe) -----------------
     let audio = null;
     let isOn = false;
 
@@ -1189,14 +620,12 @@
       if (!AudioCtx) return null;
 
       const ctx = new AudioCtx();
-
       const master = ctx.createGain();
       master.gain.value = 0.0;
       master.connect(ctx.destination);
 
       const rand = (a,b)=>a+Math.random()*(b-a);
 
-      // 1) Transmission air (filtered noise + drift)
       function noiseBuffer(){
         const seconds = 2.0;
         const len = Math.floor(ctx.sampleRate * seconds);
@@ -1211,53 +640,61 @@
         return buf;
       }
 
-      const noise = ctx.createBufferSource();
-      noise.buffer = noiseBuffer();
-      noise.loop = true;
+      // Soft saturation for “radio grit”
+      const saturator = ctx.createWaveShaper();
+      {
+        const n = 2048;
+        const curve = new Float32Array(n);
+        for (let i=0; i<n; i++){
+          const x = (i/(n-1))*2 - 1;
+          curve[i] = Math.tanh(2.2 * x);
+        }
+        saturator.curve = curve;
+        saturator.oversample = "2x";
+      }
 
-      const band = ctx.createBiquadFilter();
-      band.type = "bandpass";
-      band.frequency.value = 540;
-      band.Q.value = 0.95;
+      // ===== 1) Base Air (subtle) =====
+      const air = ctx.createBufferSource();
+      air.buffer = noiseBuffer();
+      air.loop = true;
 
-      const low = ctx.createBiquadFilter();
-      low.type = "lowpass";
-      low.frequency.value = 1750;
+      const airBP = ctx.createBiquadFilter();
+      airBP.type = "bandpass";
+      airBP.frequency.value = 520;
+      airBP.Q.value = 0.9;
+
+      const airLP = ctx.createBiquadFilter();
+      airLP.type = "lowpass";
+      airLP.frequency.value = 1750;
 
       const airGain = ctx.createGain();
-      airGain.gain.value = 0.52;
+      airGain.gain.value = 0.40;
 
-      noise.connect(band);
-      band.connect(low);
-      low.connect(airGain);
+      air.connect(airBP);
+      airBP.connect(airLP);
+      airLP.connect(airGain);
       airGain.connect(master);
 
+      // Air drift (breathing)
       const drift = ctx.createOscillator();
       drift.type = "sine";
       drift.frequency.value = 0.035;
-
       const driftAmt = ctx.createGain();
-      driftAmt.gain.value = 75;
+      driftAmt.gain.value = 80;
       drift.connect(driftAmt);
-      driftAmt.connect(band.frequency);
+      driftAmt.connect(airBP.frequency);
 
-      // 2) Celestial pad (soft chord + breathing)
-      const padGain = ctx.createGain();
-      padGain.gain.value = 0.20;
+      // ===== 2) Celestial pad (warm and low) =====
+      const padBus = ctx.createGain();
+      padBus.gain.value = 0.18;
 
       const padLP = ctx.createBiquadFilter();
       padLP.type = "lowpass";
       padLP.frequency.value = 920;
       padLP.Q.value = 0.6;
 
-      const padShelf = ctx.createBiquadFilter();
-      padShelf.type = "highshelf";
-      padShelf.frequency.value = 2400;
-      padShelf.gain.value = 3;
-
-      padGain.connect(padLP);
-      padLP.connect(padShelf);
-      padShelf.connect(master);
+      padBus.connect(padLP);
+      padLP.connect(master);
 
       function padOsc(freq, detune){
         const o = ctx.createOscillator();
@@ -1266,27 +703,22 @@
         o.detune.value = detune;
         return o;
       }
-
-      const p1 = padOsc(110.00, -6);  // A2
-      const p2 = padOsc(164.81,  5);  // E3
-      const p3 = padOsc(220.00,  0);  // A3
-
-      p1.connect(padGain);
-      p2.connect(padGain);
-      p3.connect(padGain);
+      const p1 = padOsc(110.00, -6);
+      const p2 = padOsc(164.81,  5);
+      const p3 = padOsc(220.00,  0);
+      p1.connect(padBus); p2.connect(padBus); p3.connect(padBus);
 
       const breath = ctx.createOscillator();
       breath.type = "sine";
       breath.frequency.value = 0.06;
-
       const breathAmt = ctx.createGain();
       breathAmt.gain.value = 0.08;
       breath.connect(breathAmt);
-      breathAmt.connect(padGain.gain);
+      breathAmt.connect(padBus.gain);
 
-      // 3) Star chimes (random shimmering pings)
+      // ===== 3) Star chimes (rare + soft) =====
       const chimeBus = ctx.createGain();
-      chimeBus.gain.value = 0.20;
+      chimeBus.gain.value = 0.15;
 
       const chimeHP = ctx.createBiquadFilter();
       chimeHP.type = "highpass";
@@ -1306,10 +738,8 @@
 
         const g = ctx.createGain();
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(rand(0.05, 0.11), t + 0.01);
+        g.gain.linearRampToValueAtTime(rand(0.04, 0.09), t + 0.01);
         g.gain.exponentialRampToValueAtTime(0.0001, t + rand(0.45, 1.15));
-
-        o.frequency.exponentialRampToValueAtTime(base * rand(0.6, 0.82), t + rand(0.25, 0.9));
 
         o.connect(g);
         g.connect(chimeBus);
@@ -1317,44 +747,32 @@
         o.start(t);
         o.stop(t + 2.0);
 
-        setTimeout(scheduleChime, rand(520, 1600));
+        setTimeout(scheduleChime, rand(950, 2200));
       }
 
-      // 4) Gentle scan pulse (micro tremolo)
-      const trem = ctx.createOscillator();
-      trem.type = "sine";
-      trem.frequency.value = 0.08;
-
-      const tremGain = ctx.createGain();
-      tremGain.gain.value = 0.018;
-      trem.connect(tremGain);
-      tremGain.connect(master.gain);
-
-      // 5) NEW: Radio frequency tones (carrier + periodic scanner sweeps + rare lock ping)
+      // ===== 4) RF carrier + periodic sweeps =====
       const rfBus = ctx.createGain();
-      rfBus.gain.value = 0.12; // subtle overall level
+      rfBus.gain.value = 0.11;
       rfBus.connect(master);
 
-      // Warm “carrier” tone (felt more than heard)
       const carrier = ctx.createOscillator();
       carrier.type = "sine";
-      carrier.frequency.value = 96; // low, warm
-      const carrierGain = ctx.createGain();
-      carrierGain.gain.value = 0.03;
+      carrier.frequency.value = 96;
 
-      // Tiny wobble so it feels alive
+      const carrierGain = ctx.createGain();
+      carrierGain.gain.value = 0.028;
+
+      const carrierHP = ctx.createBiquadFilter();
+      carrierHP.type = "highpass";
+      carrierHP.frequency.value = 70;
+
       const carrierWob = ctx.createOscillator();
       carrierWob.type = "sine";
       carrierWob.frequency.value = 0.12;
       const carrierWobAmt = ctx.createGain();
-      carrierWobAmt.gain.value = 2.2; // Hz wobble
+      carrierWobAmt.gain.value = 2.2;
       carrierWob.connect(carrierWobAmt);
       carrierWobAmt.connect(carrier.frequency);
-
-      // Shape carrier so it doesn't get “boomy”
-      const carrierHP = ctx.createBiquadFilter();
-      carrierHP.type = "highpass";
-      carrierHP.frequency.value = 70;
 
       carrier.connect(carrierGain);
       carrierGain.connect(carrierHP);
@@ -1365,15 +783,12 @@
 
         const o = ctx.createOscillator();
         o.type = "sine";
-
-        // Start low-mid, sweep upward, then vanish
         const startF = rand(220, 420);
         const endF   = rand(1200, 2200);
 
         o.frequency.setValueAtTime(startF, now + 0.02);
         o.frequency.exponentialRampToValueAtTime(endF, now + rand(0.9, 1.4));
 
-        // Bandpass it to feel “radio”
         const bp = ctx.createBiquadFilter();
         bp.type = "bandpass";
         bp.frequency.value = rand(700, 1100);
@@ -1381,7 +796,7 @@
 
         const g = ctx.createGain();
         g.gain.setValueAtTime(0.0001, now);
-        g.gain.linearRampToValueAtTime(rand(0.018, 0.032), now + 0.10);
+        g.gain.linearRampToValueAtTime(rand(0.012, 0.026), now + 0.10);
         g.gain.exponentialRampToValueAtTime(0.0001, now + rand(1.0, 1.6));
 
         o.connect(bp);
@@ -1391,42 +806,123 @@
         o.start(now);
         o.stop(now + 2.2);
 
-        // Rare “lock ping” after some sweeps
-        if (Math.random() < 0.18) {
-          const t = now + rand(1.1, 2.1);
-          const ping = ctx.createOscillator();
-          ping.type = "triangle";
-          ping.frequency.value = rand(740, 980);
-
-          const pg = ctx.createGain();
-          pg.gain.setValueAtTime(0.0001, t);
-          pg.gain.linearRampToValueAtTime(rand(0.025, 0.05), t + 0.01);
-          pg.gain.exponentialRampToValueAtTime(0.0001, t + rand(0.25, 0.55));
-
-          const php = ctx.createBiquadFilter();
-          php.type = "highpass";
-          php.frequency.value = 680;
-
-          ping.connect(pg);
-          pg.connect(php);
-          php.connect(rfBus);
-
-          ping.start(t);
-          ping.stop(t + 0.9);
-        }
-
-        // schedule next sweep
         setTimeout(playSweep, rand(20000, 35000));
       }
 
-      // start everything
-      noise.start(); drift.start();
-      p1.start(); p2.start(); p3.start(); breath.start();
-      trem.start();
-      carrier.start(); carrierWob.start();
+      // ===== 5) Broken shortwave “spoken fragments” (70s traffic) =====
+      const fragSrc = ctx.createBufferSource();
+      fragSrc.buffer = noiseBuffer();
+      fragSrc.loop = true;
+
+      // Formant-ish filters to mimic “voice through radio”
+      const f1 = ctx.createBiquadFilter();
+      f1.type = "bandpass";
+      f1.frequency.value = 820;
+      f1.Q.value = 7.0;
+
+      const f2 = ctx.createBiquadFilter();
+      f2.type = "bandpass";
+      f2.frequency.value = 1450;
+      f2.Q.value = 6.0;
+
+      // Mix is the gate (pulses)
+      const fragMix = ctx.createGain();
+      fragMix.gain.value = 0.0;
+
+      // Band-limit like HF radio
+      const fragHP = ctx.createBiquadFilter();
+      fragHP.type = "highpass";
+      fragHP.frequency.value = 260;
+
+      const fragLP = ctx.createBiquadFilter();
+      fragLP.type = "lowpass";
+      fragLP.frequency.value = 2600;
+
+      const fragOut = ctx.createGain();
+      fragOut.gain.value = 0.20; // “barely audible but present”
+
+      // Flutter (shortwave instability)
+      const flutter = ctx.createOscillator();
+      flutter.type = "sine";
+      flutter.frequency.value = rand(3.2, 5.4);
+
+      const flutterDepth = ctx.createGain();
+      flutterDepth.gain.value = 0.06;
+
+      flutter.connect(flutterDepth);
+      flutterDepth.connect(fragOut.gain);
+
+      // Parallel filters -> sum
+      fragSrc.connect(f1);
+      fragSrc.connect(f2);
+      f1.connect(fragMix);
+      f2.connect(fragMix);
+
+      fragMix.connect(fragHP);
+      fragHP.connect(fragLP);
+      fragLP.connect(saturator);
+      saturator.connect(fragOut);
+      fragOut.connect(master);
+
+      function fireFragment(){
+        const t = ctx.currentTime + rand(0.15, 0.75);
+
+        // “Station” (voice formants)
+        const F1 = rand(650, 900);
+        const F2 = rand(1200, 1650);
+
+        f1.frequency.setValueAtTime(F1, t);
+        f2.frequency.setValueAtTime(F2, t);
+
+        // gentle drift like tuning instability
+        f1.frequency.linearRampToValueAtTime(F1 * rand(0.92, 1.06), t + rand(0.35, 0.7));
+        f2.frequency.linearRampToValueAtTime(F2 * rand(0.92, 1.06), t + rand(0.35, 0.7));
+
+        // burst length
+        const dur = rand(0.45, 1.10);
+
+        // smooth in/out
+        fragMix.gain.cancelScheduledValues(t);
+        fragMix.gain.setValueAtTime(0.0001, t);
+        fragMix.gain.linearRampToValueAtTime(rand(0.20, 0.55), t + rand(0.08, 0.16));
+
+        // 2–5 soft “syllables”
+        const syllables = Math.floor(rand(2, 6));
+        let tt = t + rand(0.10, 0.20);
+
+        for (let i=0; i<syllables; i++){
+          const up = rand(0.04, 0.10);
+          const down = rand(0.05, 0.12);
+          const peak = rand(0.18, 0.60);
+
+          fragMix.gain.linearRampToValueAtTime(peak, tt + up);
+          fragMix.gain.exponentialRampToValueAtTime(0.0001, tt + up + down);
+          tt += up + down + rand(0.04, 0.10);
+        }
+
+        // signal slips away
+        fragMix.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+        // next traffic burst
+        setTimeout(fireFragment, rand(4200, 11000));
+      }
+
+      // ===== Start nodes =====
+      air.start(); drift.start();
+
+      p1.start(); p2.start(); p3.start();
+      breath.start();
+
       scheduleChime();
-      // start sweeps after a short settle
+
+      carrier.start();
+      carrierWob.start();
+
+      fragSrc.start();
+      flutter.start();
+
       setTimeout(playSweep, rand(8000, 12000));
+      setTimeout(fireFragment, rand(2500, 4500));
 
       return { ctx, master };
     }
@@ -1439,6 +935,7 @@
       audio.master.gain.linearRampToValueAtTime(vol, t + 0.25);
     }
 
+    // Scroll-based volume fade (quieter as you go down)
     function applyScrollVolume(){
       if (!audio || !isOn) return;
 
@@ -1447,8 +944,8 @@
       const scrollMax = (doc.scrollHeight - doc.clientHeight) || 1;
       const p = Math.max(0, Math.min(1, scrollTop / scrollMax));
 
-      const maxVol = 0.11;
-      const minVol = 0.02;
+      const maxVol = 0.12;  // top of page
+      const minVol = 0.02;  // bottom of page
       const vol = (maxVol * (1 - p)) + (minVol * p);
       setVol(vol);
     }
@@ -1494,9 +991,6 @@
       setTimeout(() => gate.style.display = "none", 380);
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
-  </script>
-</body>
-</html>
   </script>
 </body>
 </html>
