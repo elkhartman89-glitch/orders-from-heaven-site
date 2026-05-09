@@ -5,6 +5,6 @@ function doGet() {
 
   return template
     .evaluate()
-    .setTitle('Austin Hardware Prospecting Map')
+    .setTitle('Austin Vision')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
