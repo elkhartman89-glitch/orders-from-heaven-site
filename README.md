@@ -1,6 +1,6 @@
-# Austin Hardware Prospecting Map
+# Austin Vision
 
-A Google Apps Script web app for Austin Hardware & Supply sales reps to find, vet, map, and save OEM / industrial prospects that are good targets for fasteners, industrial hardware, chemicals, engineering services, and VMI.
+Austin Vision is a Google Apps Script web app for Austin Hardware & Supply sales reps to find, vet, map, and save OEM / industrial prospects that are good targets for fasteners, industrial hardware, chemicals, engineering services, and VMI.
 
 This app uses Google Sheets as the database, Google Apps Script as the server layer, and a no-framework HTML/CSS/JavaScript frontend with Google Maps.
 
@@ -89,7 +89,7 @@ Do not hardcode API keys or private secrets in the source files.
 ## Create the Google Sheet
 
 1. Create a Google Sheet for the prospect database.
-2. Recommended name: `Austin Hardware Prospecting Map`.
+2. Recommended name: `Austin Vision Prospects`.
 3. Use a container-bound Apps Script project from this sheet when possible:
    - Open the Sheet.
    - Go to Extensions > Apps Script.
@@ -168,7 +168,7 @@ It also styles the header row, freezes row 1, and auto-resizes columns.
 1. Open Apps Script.
 2. Click Deploy > New deployment.
 3. Select Web app.
-4. Description: `Austin Hardware Prospecting Map`.
+4. Description: `Austin Vision`.
 5. Execute as: `Me` / user deploying.
 6. Who has access: your Google Workspace domain, matching the manifest setting.
 7. Deploy.
